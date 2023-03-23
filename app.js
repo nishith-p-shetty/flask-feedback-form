@@ -10,7 +10,7 @@ function addClass() {
         contentType: 'application/json',
         data: JSON.stringify(compldReq),
         dataType: 'json',
-        url: 'http://127.0.0.1:5000/submit'
+        url: 'https://feedback.bhuvansa.ml/submit'
     });
 
 
