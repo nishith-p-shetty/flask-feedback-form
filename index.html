@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="style.css" />
+	<title>Feedback</title>
+</head>
+
+<body>
+	<small>Enter Feedback and click button "Send"</small>
+	<br>
+	<br>
+	<br>
+	<div class="wrapper centered">
+		<article class="letter">
+			<div class="side">
+				<h1>Feedback</h1>
+				<p>
+					<textarea placeholder="Your Feedback" id="msg"></textarea>
+				</p>
+			</div>
+			<div class="side">
+				<p>
+				<div class="slidecontainer">
+					<div id="starno">1 ⭐️</div>
+					<input type="range" min="1" max="5" value="1" class="slider" id="myRange">
+				</div>
+				</p>
+				<p>
+					<input type="text" placeholder="Your name" id="name" />
+				</p>
+				<p>
+					<button id="sendFeedbackbtn" type="submit">Send</button>
+				</p>
+			</div>
+		</article>
+		<div class="envelope front"></div>
+		<div class="envelope back"></div>
+	</div>
+	<p class="result-message centered">Thank-you for your Feedback</p>
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+		integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+	<script src="app.js" defer></script>
+</body>
+
+</html>
