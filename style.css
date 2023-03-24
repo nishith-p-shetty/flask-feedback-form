@@ -77,7 +77,7 @@ textarea:focus {
 	outline: none;
 }
 .wrapper {
-	width: 35rem;
+	width: 70rem;
 	background-color: white;
 }
 .letter {
@@ -85,7 +85,7 @@ textarea:focus {
 	left: 0;
 	right: 0;
 	top: 0;
-	width: 30rem;
+	width: 60rem;
 	margin: auto;
 	perspective: 60rem;
 }
