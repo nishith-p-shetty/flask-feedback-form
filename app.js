@@ -1,26 +1,28 @@
-const slider = $('#myRange');
-const output = $('#starno');
+const slider = $("#myRange");
+const output = $("#starno");
 
-slider.on('input', function () {
+slider.on("input", function() {
     let no = "";
-    for (var i = 0; i < this.value; i++) {
-        no += '⭐️';
+    let i = 0;
+    for (i = 0; i < this.value; i++) {
+        no += "⭐️";
     }
     output.text("Rating: " + slider.val() + " " + no);
 });
 
-
-const forms = $('.form');
+const forms = $(".form");
 const name = forms[1].value;
 console.log(forms);
 
-for (var i = 2 ; i <= forms.length ; i++)
-{
-    console.log(i);
+let no = 0;
+let rateAr = [];
+for (var i = 2; i < forms.length - 1; i++) {
+    rateAr[i - 2] = [];
+    for (let j = 0; j < 5; j++) {
+        rateAr[i - 2][j] = no++;
+    }
 }
-
-
-
+console.log(rateAr);
 
 /*$('#sendFeedbackbtn').click(function () {
     const msg = document.getElementById("msg").value;
@@ -36,3 +38,4 @@ for (var i = 2 ; i <= forms.length ; i++)
         url: 'https://feedback.bhuvansa.ml/submit'
     });
 });*/
+
