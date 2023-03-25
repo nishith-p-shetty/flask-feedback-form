@@ -9,7 +9,6 @@ body {
 	color: #4e5e72;
 	text-align: center;
 	font-family: monospace;
-	overflow: hidden;
 }
 h1,
 p {
@@ -19,6 +18,9 @@ p {
 h1 {
 	font-size: 2rem;
 	font-family: "Dancing Script";
+}
+h2 {
+	font-size: 1.75rem;
 }
 small {
 	display: block;
@@ -45,7 +47,7 @@ input {
 }
 textarea {
 	width: 100%;
-	height: 8rem;
+	height: 4rem;
 	resize: none;
 }
 input {
@@ -77,22 +79,24 @@ textarea:focus {
 	outline: none;
 }
 .wrapper {
-	width: 70rem;
-	background-color: white;
+	width: 30rem;
+	height: 150rem;
+	border-radius; 50px;
 }
 .letter {
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
-	width: 60rem;
+	width: 30rem;
 	margin: auto;
-	perspective: 60rem;
+	perspective: 30rem;
 }
 .side {
-	height: 12rem;
+	height: 75rem;
 	background-color: #fcfcf8;
 	outline: 1px solid transparent;
+	text-align: center;
 }
 .side:nth-of-type(1) {
 	padding: 2rem 2rem 0;
@@ -137,6 +141,7 @@ textarea:focus {
 	right: 0;
 	transform: rotate(-30deg);
 	transform-origin: 100% 0;
+	overflow: hidden;
 }
 .envelope.back {
 	top: -4rem;
