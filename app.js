@@ -6,9 +6,23 @@ slider.on('input', function () {
     for (var i = 0; i < this.value; i++) {
         no += '⭐️';
     }
-    output.text(slider.val() + " " + no);
+    output.text("Rating: " + slider.val() + " " + no);
 });
-$('#sendFeedbackbtn').click(function () {
+
+
+const forms = $('.form');
+const name = forms[1].value;
+console.log(forms);
+
+for (var i = 2 ; i <= forms.length ; i++)
+{
+    console.log(i);
+}
+
+
+
+
+/*$('#sendFeedbackbtn').click(function () {
     const msg = document.getElementById("msg").value;
     const srtno = $('#myRange').val();
     const name = $('#name').val();
@@ -21,7 +35,4 @@ $('#sendFeedbackbtn').click(function () {
         dataType: 'json',
         url: 'https://feedback.bhuvansa.ml/submit'
     });
-    document.body.classList.add("sent");
-});
-
-
+});*/
