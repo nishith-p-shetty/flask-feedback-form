@@ -1,85 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <title></title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="style.css" rel="stylesheet">
-  </head>
-  <small> Please give us your valuable feedback <br><br> </small>
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="style.css" rel="stylesheet">
+</head>
+<small> Please give us your valuable feedback <br><br> </small>
 
-  <body>
+<body>
+  <div class="form">
+    <h1> Feedback form </h1>
+  </div>
+  <br>
+  <br>
+  <form action="http://127.0.0.1:5000/submit" method="POST">
     <div class="form">
-      <h1> Feedback form </h1>
+      <input type="text" placeholder="Enter your name" name="usrname">
     </div>
     <br>
     <br>
-    <form action="http://127.0.0.1:5000/submit" method="post">
-      <div class="form">
-        <input type="text" placeholder="Enter your name" name="usrname">
-      </div>
+    <div class="form">
+      <h2>Team 1</h2>
       <br>
-      <div class="form">
-        <h2>Team 1</h2>
-        <br>
-        <div id="starno1A">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange1A" name="myRange1A">
-        <br>
-        <div id="starno1B">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange1B" name="myRange1B">
-        <br>
-        <div id="starno1C">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange1C" name="myRange1C">
-        <br>
-        <div id="starno1D">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange1D" name="myRange1D">
-        <br>
-        <div id="starno1E">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange1E" name="myRange1E">
-        <br>
-        <input type="text" rows="3" placeholder="Enter feedback" class="ntext" id="msg1" name="msg1">
-      </div>
-      <div class="form">
-        <h2>Team 2</h2>
-        <br>
-        <div id="starno2A">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange2A" name="myRange2A">
-        <br>
-        <div id="starno2B">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange2B" name="myRange2B">
-        <br>
-        <div id="starno2C">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange2C" name="myRange2C">
-        <br>
-        <div id="starno2D">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange2D" name="myRange2D">
-        <br>
-        <div id="starno2E">Rating: 1 ⭐️</div>
-        <br>
-        <input type="range" min="1" max="10" value="1" class="slider" id="myRange2E" name="myRange2E">
-        <br>
-        <input type="text" rows="3" placeholder="Enter feedback" class="ntext" id="msg2" name="msg2">
-      </div>
+      <label>How creative and innovative was the solution presented by the team?</label>
+      <div id="starno1A">Rating: 1 ⭐️</div>
       <br>
-      <div class="form submitdiv">
-        <button id="sendFeedbackbtn" type="submit">Submit</button>
-      </div>
-    </form>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange1A" name="myRange1A">
+      <br>
+      <br>
+      <br>
+      <label>How well did the team explain their solutions and its key components?</label>
+      <div id="starno1B">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange1B" name="myRange1B">
+      <br>
+      <br>
+      <br>
+      <label>How maintainable and scalable was the solution presented by the team?</label>
+      <div id="starno1C">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange1C" name="myRange1C">
+      <br>
+      <br>
+      <br>
+      <label>Finally, overall, how impressed were you with the team's solution and presentation?</label>
+      <div id="starno1D">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange1D" name="myRange1D">
+      <br>
+      <br>
+      <br>
+      <input type="text" rows="3" placeholder="Enter feedback" class="ntext" id="msg1" name="msg1">
+    </div>
+    <br>
+    <br>
+    <div class="form">
+      <h2>Team 2</h2>
+      <br>
+      <label>How creative and innovative was the solution presented by the team?</label>
+      <div id="starno2A">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange2A" name="myRange2A">
+      <br>
+      <br>
+      <br>
+      <label>How well did the team explain their solutions and its key components?</label>
+      <div id="starno2B">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange2B" name="myRange2B">
+      <br>
+      <br>
+      <br>
+      <label>How maintainable and scalable was the solution presented by the team?</label>
+      <div id="starno2C">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange2C" name="myRange2C">
+      <br>
+      <br>
+      <br>
+      <label>Finally, overall, how impressed were you with the team's solution and presentation?</label>
+      <div id="starno2D">Rating: 1 ⭐️</div>
+      <br>
+      <input type="range" min="1" max="10" value="1" class="slider" id="myRange2D" name="myRange2D">
+      <br>
+      <br>
+      <br>
+      <input type="text" rows="3" placeholder="Enter feedback" class="ntext" id="msg2" name="msg2">
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="form submitdiv">
+      <button id="sendFeedbackbtn" type="submit">Submit</button>
+    </div>
+  </form>
 
 
 
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="app.js"></script>
-  </body>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
 
 </html>
