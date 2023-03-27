@@ -3,32 +3,98 @@
 
 <head>
   <title>Dashboard</title>
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 5px;
+      text-align: left;
+    }
+  </style>
 </head>
 
 <body>
-  {% if session.logged_in %}
-  <h1>Welcome to the Dashboard</h1>
+  <h1>Dashboard</h1>
+  <hr>
+  <h2>Review Table</h2>
   <table>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Stars</th>
-      <th>Message</th>
-    </tr>
-    {% for row in rows %}
-    <tr>
-      <td>{{ row[0] }}</td>
-      <td>{{ row[1] }}</td>
-      <td>{{ row[2] }}</td>
-      <td>{{ row[3] }}</td>
-    </tr>
-    {% endfor %}
+    <thead>
+      <tr>
+        <th>rev_id</th>
+        <th>reviewer_name</th>
+        <th>review_time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in tables[0]["rows"] %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
-  <p><a href="{{ url_for('logout') }}">Logout</a></p>
-  {% else %}
-  <p>Please login to access the dashboard</p>
-  <p><a href="{{ url_for('login') }}">Login</a></p>
-  {% endif %}
+  <br>
+  {% for i in range(2, 17) %}
+  <h2>Team{{ i-1 }} Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>team1_id</th>
+        <th>rev_id</th>
+        <th>field1</th>
+        <th>field2</th>
+        <th>field3</th>
+        <th>field4</th>
+        <th>average</th>
+        <th>msg</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in tables[i]["rows"] %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+        <td>{{ row[7] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <h2>average Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Team Name</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in tables[17]["rows"] %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  {% endfor %}
 </body>
 
 </html>
