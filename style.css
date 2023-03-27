@@ -33,6 +33,12 @@ small {
   width: 500px;
   background-color: white;
   border-radius: 20px;
+  text-align: center;
+  align: center;
+}
+label {
+  display: inline-block;
+  width: 70%;
 }
 
 input {
