@@ -2,3 +2,4 @@
 __MACOSX
 backend/venv
 .gitignore
+__pycache__
