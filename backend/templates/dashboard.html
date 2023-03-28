@@ -16,11 +16,70 @@
       padding: 5px;
       text-align: left;
     }
+
+    .logoutbtn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: red;
+      border: solid 3px black;
+      border-radius: 10%;
+      padding: 7px;
+      margin: 20px;
+      font-size: larger;
+    }
+
+    .refreshbtn {
+      position: absolute;
+      top: 0;
+      right: 50%;
+      background-color: lightblue;
+      border: solid 3px black;
+      border-radius: 10%;
+      padding: 7px;
+      margin: 20px;
+      font-size: larger;
+    }
+
+    .calcbtn {
+      position: relative;
+      background-color: green;
+      border: solid 3px black;
+      color: white;
+      border-radius: 20%;
+      padding: 7px;
+      margin: 20px;
+      font-size: larger;
+    }
+
+    .avgdiv {
+      display: flex;
+      align-items: center;
+    }
+
+    nav {
+      position: fixed; /* Set the navbar to fixed position */
+      top: 0; /* Position the navbar at the top of the page */
+      width: 100%;
+      background-color: white;
+    }
   </style>
 </head>
 
 <body>
-  <h1>Dashboard</h1>
+  <nav>
+    <h1>Dashboard</h1>
+    <form action="/" method="get">
+      <button class="refreshbtn" type="submit">Refresh</button>
+    </form>
+    <form action="/logout" method="get">
+      <button class="logoutbtn" type="submit">Logout</button>
+    </form>
+  </nav>
+  <br>
+  <br>
+  <br>
+  <br>
   <hr>
   <h2>Review Table</h2>
   <table>
@@ -75,13 +134,19 @@
   {% endfor %}
   <br>
   <br>
-  <h2>average Table</h2>
+  <div class="avgdiv">
+    <h2>Average Table</h2>
+    <form action="/calculate" method="get">
+      <button class="calcbtn" type="submit">Calculate</button>
+    </form>
+  </div>
   <table>
     <thead>
       <tr>
         <th>ID</th>
         <th>Team Name</th>
-        <th>Time</th>
+        <th>Average</th>
+        <th>Calculated Time</th>
       </tr>
     </thead>
     <tbody>
@@ -90,6 +155,7 @@
         <td>{{ row[0] }}</td>
         <td>{{ row[1] }}</td>
         <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
       </tr>
       {% endfor %}
     </tbody>

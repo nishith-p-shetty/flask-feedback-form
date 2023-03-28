@@ -1,5 +1,0 @@
--Add logout button to dashboard
-
--Create new table dashboard table, calculate average of averages of each team and store in the the table
-
--beutify add html pages

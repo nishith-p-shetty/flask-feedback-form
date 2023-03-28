@@ -4,8 +4,7 @@ from flask import Flask, render_template, request, session, redirect, url_for, f
 from flask_cors import CORS
 
 app = Flask(__name__)
-# set a secret key for session management
-app.secret_key = "!/!kl41234lkasdfsdjfa"
+app.secret_key = "fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6]"
 CORS(app)
 
 # Create a hardcoded username and password
@@ -37,9 +36,10 @@ for x in range(1, 16):
     ''')
 cursor.execute('''
                     CREATE TABLE IF NOT EXISTS avg_table (
-                      team_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      team_id INTEGER,
                       team_name VARCHAR(50),
-                      _time DATETIME
+                      team_average REAL,
+                      calc_time DATETIME
                     );
    ''')
 cursor.close()
@@ -106,7 +106,7 @@ def submit():
     for tno in range(1, 16):
         tno = str(tno)
         avg = (int(copy_data['myRange'+str(tno)+'A']) + int(copy_data['myRange'+str(
-            tno)+'B']) + int(copy_data['myRange'+str(tno)+'C']) + int(copy_data['myRange'+str(tno)+'D']))/4
+            tno)+'B']) + int(copy_data['myRange'+str(tno)+'C']) + int(copy_data['myRange'+str(tno)+'D'])*2)/5
         cursor.execute(
             '''INSERT INTO team'''+tno +
             '''(rev_id, field1, field2, field3, field4, average, msg) VALUES(?, ?, ?, ?, ?, ?, ?);''',
@@ -121,25 +121,34 @@ def submit():
 
 @app.route('/calculate', methods=['GET'])
 def calculate():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    
     conn = sqlite3.connect('feedback.db')
-    cursor = conn.cursor()
+    c = conn.cursor()
+    c.execute("DELETE FROM avg_table")
 
-    for tno in range(1, 16):
-        tno = str(tno)
-        avg = (int(copy_data['myRange'+str(tno)+'A']) + int(copy_data['myRange'+str(
-            tno)+'B']) + int(copy_data['myRange'+str(tno)+'C']) + int(copy_data['myRange'+str(tno)+'D']))/4
-        cursor.execute(
-            '''INSERT INTO team'''+tno +
-            '''(rev_id, field1, field2, field3, field4, average, msg) VALUES(?, ?, ?, ?, ?, ?, ?);''',
-            (reve_id, copy_data['myRange'+str(tno)+'A'], copy_data['myRange'+str(tno)+'B'], copy_data['myRange'+str(tno)+'C'], copy_data['myRange'+str(tno)+'D'], avg, copy_data['msg'+tno]))
+    for i in range(1, 16):
+        table_name = 'team{}'.format(i)
 
-    cursor.close()
+        c.execute('SELECT AVG(average) FROM {}'.format(table_name))
+        team_avg = c.fetchone()[0]
+        c.execute('INSERT INTO avg_table (team_id, team_name, team_average, calc_time) VALUES (?, ?, ?, ?)',
+                  (i, 'Team {}'.format(i), team_avg, dt.now()))
+        
+    c.execute('''CREATE TEMPORARY TABLE temp_table AS
+         SELECT * FROM avg_table ORDER BY team_average DESC''')
+    c.execute('''DELETE FROM avg_table''')
+    c.execute('''INSERT INTO avg_table SELECT * FROM temp_table''')
+    c.execute('''DROP TABLE temp_table''')
+
+
     conn.commit()
     conn.close()
 
-    return render_template('success.html')
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
-    print("hi")
+    print("Server started")
     app.run()
