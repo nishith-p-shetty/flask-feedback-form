@@ -3,6 +3,8 @@
 
 <head>
   <title>Dashboard</title>
+  <link rel="stylesheet" href="static/login-style.css">
+  <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
   <style>
     table,
     th,
@@ -57,19 +59,25 @@
       align-items: center;
     }
 
+    
+    .dash {
+      text-align: left;
+    }
+    
     nav {
       position: fixed; /* Set the navbar to fixed position */
       top: 0; /* Position the navbar at the top of the page */
       width: 100%;
       background-color: white;
+      align-items: center;
     }
-  </style>
+    </style>
 </head>
 
 <body>
   <nav>
-    <h1>Dashboard</h1>
-    <form action="/" method="get">
+    <h1 class="dash">Dashboard</h1>
+    <form action="/dashboard" method="get">
       <button class="refreshbtn" type="submit">Refresh</button>
     </form>
     <form action="/logout" method="get">

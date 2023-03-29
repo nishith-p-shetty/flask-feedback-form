@@ -46,6 +46,9 @@ cursor.close()
 conn.commit()
 conn.close()
 
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -56,7 +59,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('index'))
+            return redirect(url_for('dashboard'))
     return render_template('login.html', error=error)
 
 
@@ -67,8 +70,8 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/')
-def index():
+@app.route('/dashboard')
+def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
@@ -146,7 +149,7 @@ def calculate():
     conn.commit()
     conn.close()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('dashboard'))
 
 
 if __name__ == '__main__':

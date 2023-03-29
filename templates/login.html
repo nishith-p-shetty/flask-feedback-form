@@ -3,20 +3,22 @@
 
 <head>
   <title>Login</title>
+  <link rel="stylesheet" href="static/login-style.css">
+  <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
 </head>
 
 <body>
   {% if error %}
   <p><strong>{{ error }}</strong></p>
   {% endif %}
-  <form method="post">
+  <form class="form" method="post">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" required>
     <br>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
     <br>
-    <input type="submit" value="Login">
+    <input class="loginbtn" type="submit" value="Login">
   </form>
 </body>
 
