@@ -12,7 +12,7 @@ username = 'admin'
 password = 'password'
 
 
-no_t = 5
+no_t = 12 # team+1
 
 
 conn = sqlite3.connect('feedback.db')
