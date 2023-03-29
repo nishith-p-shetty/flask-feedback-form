@@ -8,11 +8,11 @@ app.secret_key = "fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6]"
 CORS(app)
 
 # Create a hardcoded username and password
-username = 'admin'
-password = 'password'
+username = 'TechFest'
+password = 'TechFest*321'
 
 
-no_t = 12 # team+1
+no_t = 12  # team+1
 
 
 conn = sqlite3.connect('feedback.db')
