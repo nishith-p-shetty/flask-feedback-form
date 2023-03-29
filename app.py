@@ -11,6 +11,10 @@ CORS(app)
 username = 'admin'
 password = 'password'
 
+
+no_t = 5
+
+
 conn = sqlite3.connect('feedback.db')
 cursor = conn.cursor()
 cursor.execute('''
@@ -20,7 +24,7 @@ cursor.execute('''
                       review_time DATETIME
                     );
 ''')
-for x in range(1, 16):
+for x in range(1, no_t):
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS team'''+str(x)+''' (
                       team1_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,9 +50,11 @@ cursor.close()
 conn.commit()
 conn.close()
 
+
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('index.html', no_t=no_t)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -87,7 +93,7 @@ def dashboard():
         table_data.append({'name': table_name, 'rows': rows})
     cursor.close()
     conn.close()
-    return render_template('dashboard.html', tables=table_data)
+    return render_template('dashboard.html', tables=table_data, no_t=no_t)
 
 
 @app.route('/submit', methods=['POST'])
@@ -106,7 +112,7 @@ def submit():
     reve_id = cursor.fetchone()
     reve_id = reve_id[0]
 
-    for tno in range(1, 16):
+    for tno in range(1, no_t):
         tno = str(tno)
         avg = (int(copy_data['myRange'+str(tno)+'A']) + int(copy_data['myRange'+str(
             tno)+'B']) + int(copy_data['myRange'+str(tno)+'C']) + int(copy_data['myRange'+str(tno)+'D'])*2)/5
@@ -126,25 +132,24 @@ def submit():
 def calculate():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    
+
     conn = sqlite3.connect('feedback.db')
     c = conn.cursor()
     c.execute("DELETE FROM avg_table")
 
-    for i in range(1, 16):
+    for i in range(1, no_t):
         table_name = 'team{}'.format(i)
 
         c.execute('SELECT AVG(average) FROM {}'.format(table_name))
         team_avg = c.fetchone()[0]
         c.execute('INSERT INTO avg_table (team_id, team_name, team_average, calc_time) VALUES (?, ?, ?, ?)',
                   (i, 'Team {}'.format(i), team_avg, dt.now()))
-        
+
     c.execute('''CREATE TEMPORARY TABLE temp_table AS
          SELECT * FROM avg_table ORDER BY team_average DESC''')
     c.execute('''DELETE FROM avg_table''')
     c.execute('''INSERT INTO avg_table SELECT * FROM temp_table''')
     c.execute('''DROP TABLE temp_table''')
-
 
     conn.commit()
     conn.close()
