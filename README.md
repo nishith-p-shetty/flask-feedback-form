@@ -27,6 +27,6 @@ This project is a website that allows users to submit feedback on a form. The we
 
 ## Credits
 
-  This project was created by [Nishith P Shetty] and [Bhuvan S A]
+  This project was created by [Nishith P Shetty](https://github.com/nishith-p-shetty) and [Bhuvan S A](https://github.com/BhuvanSA)
 
 ## License
