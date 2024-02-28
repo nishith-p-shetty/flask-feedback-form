@@ -54,7 +54,8 @@ conn.close()
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', no_t=no_t)
+    # return render_template('index.html', no_t=no_t)
+    return "hello vercel!"
 
 
 @app.route('/login', methods=['GET', 'POST'])
