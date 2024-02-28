@@ -3,7 +3,7 @@
     "builds": [
         {
             "src": "index.py",
-            "use": "@now/python@0.4.0"
+            "use": "@now/python@3.9.0"
         }
     ],
     "routes": [
