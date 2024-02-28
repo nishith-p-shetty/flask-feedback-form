@@ -4,7 +4,8 @@ from flask import Flask, render_template, request, session, redirect, url_for, f
 from flask_cors import CORS
 from waitress import serve
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='public/templates',
+            static_folder='public/static')
 app.secret_key = "fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6]"
 CORS(app)
 
@@ -54,8 +55,8 @@ conn.close()
 
 @app.route('/', methods=['GET'])
 def index():
-    # return render_template('index.html', no_t=no_t)
-    return "hello vercel!"
+    return render_template('index.html', no_t=no_t)
+    # return "hello vercel!"
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -157,8 +158,3 @@ def calculate():
     conn.close()
 
     return redirect(url_for('dashboard'))
-
-
-if __name__ == '__main__':
-    print("Server started")
-    serve(app, host='0.0.0.0', port=1234, threads=4, url_scheme='https')

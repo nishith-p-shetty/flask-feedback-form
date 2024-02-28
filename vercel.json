@@ -1,8 +1,15 @@
 {
-    "rewrites": [
+    "version": 2,
+    "builds": [
         {
-            "source": "/(.*)",
-            "destination": "/api/index"
+            "src": "index.py",
+            "use": "@now/python@0.4.0"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "index.py"
         }
     ]
 }
