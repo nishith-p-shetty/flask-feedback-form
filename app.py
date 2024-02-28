@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime as dt
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
+from waitress import serve
 
 app = Flask(__name__)
 app.secret_key = "fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6]"
@@ -159,4 +160,4 @@ def calculate():
 
 if __name__ == '__main__':
     print("Server started")
-    app.run()
+    serve(app, host='0.0.0.0', port=1234, threads=4, url_scheme='https')
