@@ -16,8 +16,9 @@ password = 'TechFest*321'
 
 no_t = 12  # team+1
 
+DATABASE = '/tmp/feedback.db'
 
-conn = sqlite3.connect('feedback.db')
+conn = sqlite3.connect(DATABASE)
 cursor = conn.cursor()
 cursor.execute('''
                     CREATE TABLE IF NOT EXISTS review (
@@ -84,7 +85,7 @@ def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect('feedback.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
@@ -106,7 +107,7 @@ def submit():
     for key, value in form_data.items():
         copy_data[key] = value
 
-    conn = sqlite3.connect('feedback.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     cursor.execute('''INSERT INTO review(reviewer_name, review_time) VALUES(?, ?); ''',
@@ -136,7 +137,7 @@ def calculate():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect('feedback.db')
+    conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
     c.execute("DELETE FROM avg_table")
 
