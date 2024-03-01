@@ -1,82 +1,145 @@
-import sqlite3
+import psycopg2
+import os
 from datetime import datetime as dt
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
-from waitress import serve
+from typing import List, Dict
+from dotenv import load_dotenv
 
-app = Flask(__name__, template_folder='public/templates',
-            static_folder='public/static')
-app.secret_key = "fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6]"
-CORS(app)
+load_dotenv()
 
-# Create a hardcoded username and password
-username = 'TechFest'
-password = 'TechFest*321'
+ADMIN_USERNAME = os.environ.get('FEEDBACK_FORM_ADMIN_USERNAME')
+ADMIN_PASSWORD = os.environ.get('FEEDBACK_FORM_ADMIN_PASSWORD')
+SECRET_KEY = os.environ.get('FEEDBACK_FORM_SECRET_KEY')
+DB_HOST = os.environ.get('FEEDBACK_FORM_DB_HOST')
+DB_NAME = os.environ.get('FEEDBACK_FORM_DB_NAME')
+DB_USER = os.environ.get('FEEDBACK_FORM_DB_USER')
+DB_PASSWORD = os.environ.get('FEEDBACK_FORM_DB_PASSWORD')
+print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
+      DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
+
+NO_OF_TEAMS = 3
 
 
-no_t = 12  # team+1
+conn = psycopg2.connect(
+    host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME)
 
-DATABASE = '/tmp/feedback.db'
 
-conn = sqlite3.connect(DATABASE)
 cursor = conn.cursor()
+
 cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS review (
-                      rev_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      reviewer_name VARCHAR(50),
-                      review_time DATETIME
-                    );
+    CREATE TABLE IF NOT EXISTS reviewer (
+        reviewer_id SERIAL PRIMARY KEY,
+        reviewer_name VARCHAR(30),
+        review_time TIMESTAMP
+    );
 ''')
-for x in range(1, no_t):
-    cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS team'''+str(x)+''' (
-                      team1_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                      rev_id INT,
-                      field1 INT,
-                      field2 INT,
-                      field3 INT,
-                      field4 INT,
-                      average REAL,
-                      msg VARCHAR(255),
-                      FOREIGN KEY (rev_id) REFERENCES review(rev_id)
-                    );
-    ''')
+
 cursor.execute('''
-                    CREATE TABLE IF NOT EXISTS avg_table (
-                      team_id INTEGER,
-                      team_name VARCHAR(50),
-                      team_average REAL,
-                      calc_time DATETIME
-                    );
-   ''')
+    CREATE TABLE IF NOT EXISTS team (
+        team_id SERIAL PRIMARY KEY,
+        team_number INTEGER UNIQUE
+    );
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS feedbacks (
+        feedback_id SERIAL PRIMARY KEY,
+        reviewer_id INTEGER,
+        team_id INTEGER,
+        field1_rating SMALLINT,
+        field2_rating SMALLINT,
+        field3_rating SMALLINT,
+        field4_rating SMALLINT,
+        average_rating REAL,
+        feedback VARCHAR(255),
+        FOREIGN KEY (reviewer_id) REFERENCES reviewer(reviewer_id),
+        FOREIGN KEY (team_id) REFERENCES team(team_id)
+    );
+''')
+
+for team_id in range(1, NO_OF_TEAMS+1):
+    cursor.execute(
+        ''' INSERT INTO team (team_number) VALUES (%s) ON CONFLICT (team_number) DO NOTHING''', (team_id,))
+
 cursor.close()
 conn.commit()
 conn.close()
 
+app = Flask(__name__, template_folder='public/templates',
+            static_folder='public/static')
+app.secret_key = SECRET_KEY
+CORS(app)
+
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', no_t=no_t)
-    # return "hello vercel!"
+    return render_template('index.html', no_t=NO_OF_TEAMS)
+
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    form_data = request.form
+
+    conn = psycopg2.connect(
+        host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute('INSERT INTO reviewer (reviewer_name, review_time) VALUES (%s, %s) RETURNING reviewer_id',
+                   (form_data['reviewer_name'], dt.now()))
+    reviewer_row = cursor.fetchone()
+    reviewer_id = reviewer_row[0] if reviewer_row is not None else None
+
+    print(form_data, reviewer_id)
+    feedbacks = []
+    for team_id in range(1, NO_OF_TEAMS+1):
+        field1_rating = int(form_data.get(
+            f'team_id{team_id}_field1_rating', 1))
+        field2_rating = int(form_data.get(
+            f'team_id{team_id}_field2_rating', 1))
+        field3_rating = int(form_data.get(
+            f'team_id{team_id}_field3_rating', 1))
+        field4_rating = int(form_data.get(
+            f'team_id{team_id}_field4_rating', 1))
+        feedback = form_data.get(f'team_id{ team_id }_feedback')
+
+        print("-------")
+        print(reviewer_id, team_id, field1_rating, field2_rating,
+              field3_rating, field4_rating, feedback)
+
+        feedbacks.append((reviewer_id, team_id, field1_rating, field2_rating, field3_rating,
+                         field4_rating, field1_rating, field2_rating, field3_rating, field4_rating, feedback))
+
+    print(feedbacks)
+    cursor.executemany('''INSERT INTO feedbacks 
+                       (reviewer_id, team_id, field1_rating, field2_rating, field3_rating, field4_rating, average_rating, feedback)
+                        VALUES (%s, %s, %s, %s, %s, %s, (SELECT AVG(s) FROM UNNEST(ARRAY[%s, %s, %s, %s]) s), %s)''',
+                       feedbacks)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return render_template('success.html', name=form_data['reviewer_name'])
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != username or request.form['password'] != password:
+        if request.form['username'] != ADMIN_USERNAME or request.form['password'] != ADMIN_PASSWORD:
             error = 'Invalid Credentials. Please try again.'
         else:
             session['logged_in'] = True
-            flash('You were logged in')
+            flash('Login Successful')
             return redirect(url_for('dashboard'))
+
     return render_template('login.html', error=error)
 
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
-    flash('You were logged out')
+    flash('Logout Successful')
     return redirect(url_for('login'))
 
 
@@ -85,51 +148,23 @@ def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect(DATABASE)
+    conn = psycopg2.connect(
+        host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME, port=DB_PORT)
     cursor = conn.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = cursor.fetchall()
+    cursor.execute(operation="SHOW TABLES")
+    tables: List[RowType | Dict[str, RowItemType]] = cursor.fetchall()
     table_data = []
+
     for table_name in tables:
-        table_name = table_name[0]
-        cursor.execute(f"SELECT * FROM {table_name}")
-        rows = cursor.fetchall()
+        table_name: RowType | Dict[str, RowItemType] = table_name
+        cursor.execute(operation=f"SELECT * FROM {table_name}")
+        rows: List[RowType | Dict[str, RowItemType]] = cursor.fetchall()
         table_data.append({'name': table_name, 'rows': rows})
-    cursor.close()
-    conn.close()
-    return render_template('dashboard.html', tables=table_data, no_t=no_t)
-
-
-@app.route('/submit', methods=['POST'])
-def submit():
-    form_data = request.form
-    copy_data = {}
-    for key, value in form_data.items():
-        copy_data[key] = value
-
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-
-    cursor.execute('''INSERT INTO review(reviewer_name, review_time) VALUES(?, ?); ''',
-                   (copy_data['usrname'], dt.now()))
-    cursor.execute(''' SELECT MAX(rev_id) FROM review; ''')
-    reve_id = cursor.fetchone()
-    reve_id = reve_id[0]
-
-    for tno in range(1, no_t):
-        tno = str(tno)
-        avg = (int(copy_data['myRange'+str(tno)+'A']) + int(copy_data['myRange'+str(
-            tno)+'B']) + int(copy_data['myRange'+str(tno)+'C']) + int(copy_data['myRange'+str(tno)+'D'])*2)/5
-        cursor.execute(
-            '''INSERT INTO team'''+tno +
-            '''(rev_id, field1, field2, field3, field4, average, msg) VALUES(?, ?, ?, ?, ?, ?, ?);''',
-            (reve_id, copy_data['myRange'+str(tno)+'A'], copy_data['myRange'+str(tno)+'B'], copy_data['myRange'+str(tno)+'C'], copy_data['myRange'+str(tno)+'D'], avg, copy_data['msg'+tno]))
-
     cursor.close()
     conn.commit()
     conn.close()
 
-    return render_template('success.html')
+    return render_template(template_name_or_list='dashboard.html', tables=table_data, no_t=NO_OF_TEAMS)
 
 
 @app.route('/calculate', methods=['GET'])
@@ -137,28 +172,29 @@ def calculate():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute("DELETE FROM avg_table")
+    conn = mysql.connector.connect(
+        host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME, port=DB_PORT)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM avg_table")
 
-    for i in range(1, no_t):
+    for i in range(1, NO_OF_TEAMS):
         table_name = 'team{}'.format(i)
 
-        c.execute('SELECT AVG(average) FROM {}'.format(table_name))
-        team_avg = c.fetchone()[0]
-        c.execute('INSERT INTO avg_table (team_id, team_name, team_average, calc_time) VALUES (?, ?, ?, ?)',
-                  (i, 'Team {}'.format(i), team_avg, dt.now()))
+        cursor.execute('SELECT AVG(average) FROM {}'.format(table_name))
+        team_avg = cursor.fetchone()
+        cursor.execute('INSERT INTO avg_table (team_id, team_name, team_average, calc_time) VALUES (%s, %s, %s, %s)',
+                       (i, 'Team {}'.format(i), team_avg, dt.now()))
 
-    c.execute('''CREATE TEMPORARY TABLE temp_table AS
+    cursor.execute('''CREATE TEMPORARY TABLE temp_table AS
          SELECT * FROM avg_table ORDER BY team_average DESC''')
-    c.execute('''DELETE FROM avg_table''')
-    c.execute('''INSERT INTO avg_table SELECT * FROM temp_table''')
-    c.execute('''DROP TABLE temp_table''')
-
+    cursor.execute('''DELETE FROM avg_table''')
+    cursor.execute('''INSERT INTO avg_table SELECT * FROM temp_table''')
+    cursor.execute('''DROP TABLE temp_table''')
+    cursor.close()
     conn.commit()
     conn.close()
 
-    return redirect(url_for('dashboard'))
+    return redirect(location=url_for(endpoint='dashboard'))
 
 
 if __name__ == '__main__':
