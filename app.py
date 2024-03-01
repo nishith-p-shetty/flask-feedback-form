@@ -2,8 +2,10 @@ import sqlite3
 from datetime import datetime as dt
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
+from waitress import serve
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='public/templates',
+            static_folder='public/static')
 app.secret_key = "fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6]"
 CORS(app)
 
@@ -14,8 +16,9 @@ password = 'TechFest*321'
 
 no_t = 12  # team+1
 
+DATABASE = '/tmp/feedback.db'
 
-conn = sqlite3.connect('feedback.db')
+conn = sqlite3.connect(DATABASE)
 cursor = conn.cursor()
 cursor.execute('''
                     CREATE TABLE IF NOT EXISTS review (
@@ -54,6 +57,7 @@ conn.close()
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html', no_t=no_t)
+    # return "hello vercel!"
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -81,7 +85,7 @@ def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect('feedback.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
@@ -103,7 +107,7 @@ def submit():
     for key, value in form_data.items():
         copy_data[key] = value
 
-    conn = sqlite3.connect('feedback.db')
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     cursor.execute('''INSERT INTO review(reviewer_name, review_time) VALUES(?, ?); ''',
@@ -133,7 +137,7 @@ def calculate():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = sqlite3.connect('feedback.db')
+    conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
     c.execute("DELETE FROM avg_table")
 
@@ -158,5 +162,4 @@ def calculate():
 
 
 if __name__ == '__main__':
-    print("Server started")
     app.run()

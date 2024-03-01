@@ -10,7 +10,7 @@ body {
 h1,h2 {
   margin: 0;
   margin-bottom: .3rem;
-  padding; 0;
+  padding: 0;
   font-family: "Dancing Script";
   font-size: 3rem;
 }
@@ -34,7 +34,7 @@ small {
   background-color: white;
   border-radius: 20px;
   text-align: center;
-  align: center;
+  /* align: center; */
 }
 label {
   display: inline-block;
@@ -63,6 +63,7 @@ input {
 
 .slider {
 	-webkit-appearance: none;
+  appearance: none;
 	width: 80%;
 	height: 0.5rem;
 	border-radius: 15px;
@@ -81,7 +82,7 @@ input {
 	width: 30px;
 	height: 30px;
 	border: 0;
-	background: url("star.png");
+	background: url("../images/star.png");
 	cursor: pointer;
 }
 
@@ -89,7 +90,7 @@ input {
 	width: 30px;
 	height: 30px;
 	border: 0;
-	background: url("star.png");
+	background: url("../images/star.png");
 	cursor: pointer;
 }
 
