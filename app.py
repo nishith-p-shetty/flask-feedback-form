@@ -1,17 +1,23 @@
 import psycopg2
+import os
 from datetime import datetime as dt
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
 from typing import List, Dict
+from dotenv import load_dotenv
 
+load_dotenv()
 
-ADMIN_USERNAME = 'TechFest'
-ADMIN_PASSWORD = 'TechFest*321'
-SECRET_KEY = 'fh5;.&*2Vp/)_&4wCN,..hgVdGJKxBjbfvghHNIyUye45%90O[:O)6'
-DB_HOST = "ep-sparkling-resonance-a1x5k0je-pooler.ap-southeast-1.aws.neon.tech"
-DB_NAME = "verceldb"
-DB_USER = "default"
-DB_PASSWORD = "isG18BYMawPt"
+ADMIN_USERNAME = os.environ.get('FEEDBACK_FORM_ADMIN_USERNAME')
+ADMIN_PASSWORD = os.environ.get('FEEDBACK_FORM_ADMIN_PASSWORD')
+SECRET_KEY = os.environ.get('FEEDBACK_FORM_SECRET_KEY')
+DB_HOST = os.environ.get('FEEDBACK_FORM_DB_HOST')
+DB_NAME = os.environ.get('FEEDBACK_FORM_DB_NAME')
+DB_USER = os.environ.get('FEEDBACK_FORM_DB_USER')
+DB_PASSWORD = os.environ.get('FEEDBACK_FORM_DB_PASSWORD')
+print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
+      DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
+
 NO_OF_TEAMS = 3
 
 
@@ -95,7 +101,11 @@ def submit():
             f'team_id{team_id}_field3_rating', 1))
         field4_rating = int(form_data.get(
             f'team_id{team_id}_field4_rating', 1))
-        feedback = form_data.get('feedback')
+        feedback = form_data.get(f'team_id{ team_id }_feedback')
+
+        print("-------")
+        print(reviewer_id, team_id, field1_rating, field2_rating,
+              field3_rating, field4_rating, feedback)
 
         feedbacks.append((reviewer_id, team_id, field1_rating, field2_rating, field3_rating,
                          field4_rating, field1_rating, field2_rating, field3_rating, field4_rating, feedback))
@@ -138,9 +148,9 @@ def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
 
-    conn = mysql.connector.connect(
+    conn = psycopg2.connect(
         host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME, port=DB_PORT)
-    cursor: MySQLCursorAbstract = conn.cursor()
+    cursor = conn.cursor()
     cursor.execute(operation="SHOW TABLES")
     tables: List[RowType | Dict[str, RowItemType]] = cursor.fetchall()
     table_data = []
