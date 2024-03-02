@@ -1,8 +1,11 @@
 # flask-feedback-form
 
-This project is a website that allows users to submit feedback on a form. The website is built using HTML, CSS, and JavaScript for the front-end, and Flask and SQLite3 for the backend.
+This project is a website that allows users to submit feedback on a form. The website is built using HTML, CSS, and JavaScript for the front-end, and Flask and Postgresql for the backend.
 
-[Checkout the website](https://bhuvansa.pythonanywhere.com).
+[Checkout the website](https://flaskfeedbackform.bhuvansa.com).
+
+DBML DIAGRAM
+![](https://kroki.io/dbml/svg/eNqNkE2OwjAMRvc9RZawGfG7YcEhEDuEKpd-LRZJxLhpR2g0dyeNJm2EALFJYr_E9sueCg0l6Bg_EPWbqSHIuVQNhEmrw1XYkNzUBbdjesWSgepITmeSyXI2HVju2JN-aRyZa_aXZfvQyoFMaNMf3rQI2Lam8FOxdaj9fmgtf7c4jtUqoCzodGlCyRh9Mrm_8l82mWXMVAxdznMhx7ZWjSGtPYxg8QosX4HVE0AdhGpEIiCdSAzfulivp73xDtVmFP5KTbaDV5p-fBEtt8E3hncIU7Tx) 
 
 ## Features
 
@@ -32,3 +35,4 @@ This project is a website that allows users to submit feedback on a form. The we
   This project was created by [Nishith P Shetty](https://github.com/nishith-p-shetty) and [Bhuvan S A](https://github.com/BhuvanSA)
 
 ## License
+GNU License
