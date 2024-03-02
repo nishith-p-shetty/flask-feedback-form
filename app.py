@@ -3,7 +3,6 @@ import os
 from datetime import datetime as dt
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
-from typing import List, Dict
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -100,6 +99,8 @@ def submit():
             f'team_id{team_id}_field4_rating', 1))
         feedback = form_data.get(f'team_id{ team_id }_feedback')
 
+        # cursor.execute('''''')
+
         feedbacks.append((reviewer_id, team_id, field1_rating, field2_rating, field3_rating,
                          field4_rating, field1_rating, field2_rating, field3_rating, field4_rating, feedback))
 
@@ -128,65 +129,69 @@ def login():
     return render_template('login.html', error=error)
 
 
+@app.route('/dashboard')
+def dashboard():
+    conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
+                            password=DB_PASSWORD, host=DB_HOST)
+    cursor = conn.cursor()
+
+    # Fetch all feedbacks with reviewer and team details
+    cursor.execute('''
+        SELECT feedbacks.reviewer_id, reviewer.reviewer_name, team.team_number, feedbacks.field1_rating, feedbacks.field2_rating, feedbacks.field3_rating, feedbacks.field4_rating, feedbacks.average_rating, feedbacks.feedback
+        FROM feedbacks
+        INNER JOIN reviewer ON feedbacks.reviewer_id = reviewer.reviewer_id
+        INNER JOIN team ON feedbacks.team_id = team.team_id
+        ORDER BY feedbacks.average_rating LIMIT 5;
+    ''')
+    data = cursor.fetchall()
+
+    with open('data.txt', 'w') as f:
+        for row in data:
+            f.write(str(row)+'\n')
+
+    # Fetch the team with the highest average rating
+    cursor.execute('''
+        SELECT team_id, AVG(average_rating) as avg_rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY avg_rating DESC
+        LIMIT 1;
+    ''')
+    best_team = cursor.fetchone()
+
+    # Fetch the team with the highest rating in each field
+    fields = ['field1_rating', 'field2_rating',
+              'field3_rating', 'field4_rating']
+    best_in_fields = {}
+    for field in fields:
+        cursor.execute(f'''
+            SELECT team_id, AVG({field}) as avg_rating
+            FROM feedbacks
+            GROUP BY team_id
+            ORDER BY avg_rating DESC
+            LIMIT 1;
+        ''')
+        best_in_fields[field] = cursor.fetchone()
+
+    # Fetch reviewer statistics
+    cursor.execute('''
+        SELECT reviewer_id, COUNT(*) as review_count, AVG(average_rating) as avg_rating
+        FROM feedbacks
+        GROUP BY reviewer_id;
+    ''')
+    reviewer_stats = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('dashboard.html', data=data, best_team=best_team, best_in_fields=best_in_fields, reviewer_stats=reviewer_stats)
+
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     flash('Logout Successful')
     return redirect(url_for('login'))
-
-
-@app.route('/dashboard')
-def dashboard():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-
-    conn = psycopg2.connect(
-        host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME, port=DB_PORT)
-    cursor = conn.cursor()
-    cursor.execute(operation="SHOW TABLES")
-    tables: List[RowType | Dict[str, RowItemType]] = cursor.fetchall()
-    table_data = []
-
-    for table_name in tables:
-        table_name: RowType | Dict[str, RowItemType] = table_name
-        cursor.execute(operation=f"SELECT * FROM {table_name}")
-        rows: List[RowType | Dict[str, RowItemType]] = cursor.fetchall()
-        table_data.append({'name': table_name, 'rows': rows})
-    cursor.close()
-    conn.commit()
-    conn.close()
-
-    return render_template(template_name_or_list='dashboard.html', tables=table_data, no_t=NO_OF_TEAMS)
-
-
-@app.route('/calculate', methods=['GET'])
-def calculate():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-
-    conn = mysql.connector.connect(
-        host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME, port=DB_PORT)
-    cursor = conn.cursor()
-    cursor.execute("DELETE FROM avg_table")
-
-    for i in range(1, NO_OF_TEAMS):
-        table_name = 'team{}'.format(i)
-
-        cursor.execute('SELECT AVG(average) FROM {}'.format(table_name))
-        team_avg = cursor.fetchone()
-        cursor.execute('INSERT INTO avg_table (team_id, team_name, team_average, calc_time) VALUES (%s, %s, %s, %s)',
-                       (i, 'Team {}'.format(i), team_avg, dt.now()))
-
-    cursor.execute('''CREATE TEMPORARY TABLE temp_table AS
-         SELECT * FROM avg_table ORDER BY team_average DESC''')
-    cursor.execute('''DELETE FROM avg_table''')
-    cursor.execute('''INSERT INTO avg_table SELECT * FROM temp_table''')
-    cursor.execute('''DROP TABLE temp_table''')
-    cursor.close()
-    conn.commit()
-    conn.close()
-
-    return redirect(location=url_for(endpoint='dashboard'))
 
 
 if __name__ == '__main__':
