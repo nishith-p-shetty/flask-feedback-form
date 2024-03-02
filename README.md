@@ -28,16 +28,20 @@ Check out the live website [here](https://flaskfeedbackform.bhuvansa.com).
 
 1. Clone the repository to your local machine.
 2. Install the required dependencies using pip:
-``` pip install -r requirements.txt ```
+    ``` pip install -r requirements.txt ```
 3. Create a `.env` file in the root directory with the following data: 
     ``` 
     Application Details
-    FEEDBACK_FORM_ADMIN_USERNAME='YOUR_ADMIN_USERNAME' FEEDBACK_FORM_ADMIN_PASSWORD='YOUR_ADMIN_PASSWORD' FEEDBACK_FORM_SECRET_KEY='YOUR_SECRET_KEY'
+    FEEDBACK_FORM_ADMIN_USERNAME='YOUR_ADMIN_USERNAME'
+    FEEDBACK_FORM_ADMIN_PASSWORD='YOUR_ADMIN_PASSWORD'
+    FEEDBACK_FORM_SECRET_KEY='YOUR_SECRET_KEY'
 
     PostgreSQL database details
-    FEEDBACK_FORM_DB_HOST="YOUR_DATABASE_HOST" FEEDBACK_FORM_DB_NAME="YOUR_DATABASE_NAME" FEEDBACK_FORM_DB_USER="YOUR_DATABASE_USERNAME" FEEDBACK_FORM_DB_PASSWORD="YOUR_DATABASE_PASSWORD" 
+    FEEDBACK_FORM_DB_HOST="YOUR_DATABASE_HOST"
+    FEEDBACK_FORM_DB_NAME="YOUR_DATABASE_NAME"
+    FEEDBACK_FORM_DB_USER="YOUR_DATABASE_USERNAME"
+    FEEDBACK_FORM_DB_PASSWORD="YOUR_DATABASE_PASSWORD" 
     ```
-
 4. Run the application: ``` python app.py ```
 
 
