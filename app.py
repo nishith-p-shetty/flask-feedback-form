@@ -15,8 +15,6 @@ DB_HOST = os.environ.get('FEEDBACK_FORM_DB_HOST')
 DB_NAME = os.environ.get('FEEDBACK_FORM_DB_NAME')
 DB_USER = os.environ.get('FEEDBACK_FORM_DB_USER')
 DB_PASSWORD = os.environ.get('FEEDBACK_FORM_DB_PASSWORD')
-print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
-      DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
 
 NO_OF_TEAMS = 3
 
@@ -90,7 +88,6 @@ def submit():
     reviewer_row = cursor.fetchone()
     reviewer_id = reviewer_row[0] if reviewer_row is not None else None
 
-    print(form_data, reviewer_id)
     feedbacks = []
     for team_id in range(1, NO_OF_TEAMS+1):
         field1_rating = int(form_data.get(
@@ -103,14 +100,9 @@ def submit():
             f'team_id{team_id}_field4_rating', 1))
         feedback = form_data.get(f'team_id{ team_id }_feedback')
 
-        print("-------")
-        print(reviewer_id, team_id, field1_rating, field2_rating,
-              field3_rating, field4_rating, feedback)
-
         feedbacks.append((reviewer_id, team_id, field1_rating, field2_rating, field3_rating,
                          field4_rating, field1_rating, field2_rating, field3_rating, field4_rating, feedback))
 
-    print(feedbacks)
     cursor.executemany('''INSERT INTO feedbacks 
                        (reviewer_id, team_id, field1_rating, field2_rating, field3_rating, field4_rating, average_rating, feedback)
                         VALUES (%s, %s, %s, %s, %s, %s, (SELECT AVG(s) FROM UNNEST(ARRAY[%s, %s, %s, %s]) s), %s)''',
