@@ -2,7 +2,7 @@
 
 This project is a website that allows users to submit feedback on a form. The website is built using HTML, CSS, and JavaScript for the front-end, and Flask and SQLite3 for the backend.
 
-[Checkout the website](https://bhuvansa.pythonanywhere.com).
+[Checkout the website](https://flaskfeedbackform.bhuvansa.com).
 
 ## Features
 
