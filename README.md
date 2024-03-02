@@ -1,38 +1,63 @@
-# flask-feedback-form
+# Flask Feedback Form
 
-This project is a website that allows users to submit feedback on a form. The website is built using HTML, CSS, and JavaScript for the front-end, and Flask and Postgresql for the backend.
+![Python](https://img.shields.io/badge/-Python-333333?style=flat&logo=python)
+![Flask](https://img.shields.io/badge/-Flask-333333?style=flat&logo=flask)
+![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-333333?style=flat&logo=postgresql)
 
-[Checkout the website](https://flaskfeedbackform.bhuvansa.com).
+Flask Feedback Form is a web application designed to collect and analyze feedback and ratings for multiple teams. 
 
-DBML DIAGRAM
-![](https://kroki.io/dbml/svg/eNqNkE2OwjAMRvc9RZawGfG7YcEhEDuEKpd-LRZJxLhpR2g0dyeNJm2EALFJYr_E9sueCg0l6Bg_EPWbqSHIuVQNhEmrw1XYkNzUBbdjesWSgepITmeSyXI2HVju2JN-aRyZa_aXZfvQyoFMaNMf3rQI2Lam8FOxdaj9fmgtf7c4jtUqoCzodGlCyRh9Mrm_8l82mWXMVAxdznMhx7ZWjSGtPYxg8QosX4HVE0AdhGpEIiCdSAzfulivp73xDtVmFP5KTbaDV5p-fBEtt8E3hncIU7Tx) 
+Check out the live website [here](https://flaskfeedbackform.bhuvansa.com).
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [System Architecture](#system-architecture)
+- [DBML Diagram](#dbml-diagram)
+- [Credits](#credits)
+- [License](#license)
 
 ## Features
 
-  * Users can submit feedback by filling out a form with their name and feedback message.
+- Users can submit feedback for multiple teams by filling out a form with their name, rating, and feedback message.
+- Interactive dashboard displaying insights into ratings and feedback that have been submitted.
+- Authentication functionality to prevent unauthorized access to the dashboard.
 
-  * The website dashboard displays a list of all feedback messages that have been submitted.
-
-  * The website includes authentication functionality to prevent unauthorized access to the dashboard.
-  
-  * The dashboard allows users to sort teams based on their ranking.
-  
 ## Installation
-  
-  * Clone the repository to your local machine.
 
-  * Run ``` pip install -r requirements.txt ``` to install required dependencies.
+1. Clone the repository to your local machine.
+2. Install the required dependencies using pip:
+``` pip install -r requirements.txt ```
+3. Create a `.env` file in the root directory with the following data: 
+    ``` 
+    Application Details
+    FEEDBACK_FORM_ADMIN_USERNAME='YOUR_ADMIN_USERNAME' FEEDBACK_FORM_ADMIN_PASSWORD='YOUR_ADMIN_PASSWORD' FEEDBACK_FORM_SECRET_KEY='YOUR_SECRET_KEY'
+
+    PostgreSQL database details
+    FEEDBACK_FORM_DB_HOST="YOUR_DATABASE_HOST" FEEDBACK_FORM_DB_NAME="YOUR_DATABASE_NAME" FEEDBACK_FORM_DB_USER="YOUR_DATABASE_USERNAME" FEEDBACK_FORM_DB_PASSWORD="YOUR_DATABASE_PASSWORD" 
+    ```
+
+4. Run the application: ``` python app.py ```
 
 
 ## Usage
 
- * Use index.html to submit feedback
+- Visit `http://127.0.0.1:5000/` to submit feedback.
+- Visit `http://127.0.0.1:5000/dashboard` to view data.
 
- * The dashboard displays the contents of all the tables in the SQLite3 database.
+## System Architecture
+
+![System Architecture](./public/static/images/Architecture_diagram.svg)
+
+## DBML Diagram
+
+![DBML Diagram](https://kroki.io/dbml/svg/eNqNkE2OwjAMRvc9RZawGfG7YcEhEDuEKpd-LRZJxLhpR2g0dyeNJm2EALFJYr_E9sueCg0l6Bg_EPWbqSHIuVQNhEmrw1XYkNzUBbdjesWSgepITmeSyXI2HVju2JN-aRyZa_aXZfvQyoFMaNMf3rQI2Lam8FOxdaj9fmgtf7c4jtUqoCzodGlCyRh9Mrm_8l82mWXMVAxdznMhx7ZWjSGtPYxg8QosX4HVE0AdhGpEIiCdSAzfulivp73xDtVmFP5KTbaDV5p-fBEtt8E3hncIU7Tx)
 
 ## Credits
 
-  This project was created by [Nishith P Shetty](https://github.com/nishith-p-shetty) and [Bhuvan S A](https://github.com/BhuvanSA)
+This project was created by [Nishith P Shetty](https://github.com/nishith-p-shetty) and [Bhuvan S A](https://github.com/BhuvanSA).
 
 ## License
-GNU License
+
+This project is licensed under the terms of the [GNU GENERAL PUBLIC LICENSE](LICENSE).
