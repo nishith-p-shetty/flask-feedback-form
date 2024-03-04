@@ -132,7 +132,7 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     page = request.args.get('page', 1, type=int)
-    search = request.args.get('search', '', type=str)
+    search = request.args.get('search', '', type=str).strip()
 
     conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
                             password=DB_PASSWORD, host=DB_HOST)
