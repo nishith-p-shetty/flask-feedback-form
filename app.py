@@ -171,9 +171,9 @@ def dashboard():
 
     data = cursor.fetchall()
 
-    with open('data.txt', 'w') as f:
-        for row in data:
-            f.write(str(row)+'\n')
+    # with open('data.txt', 'w') as f:
+    #     for row in data:
+    #         f.write(str(row)+'\n')
 
     # Fetch the team with the highest average rating
     cursor.execute('''

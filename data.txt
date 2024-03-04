@@ -1,5 +1,0 @@
-(19, 'bhuvansa', 3, 7, 7, 8, 9, 7.75, datetime.datetime(2024, 3, 2, 12, 40, 2, 283958), 'awesome')
-(19, 'bhuvansa', 1, 10, 8, 5, 6, 7.25, datetime.datetime(2024, 3, 2, 12, 40, 2, 283958), 'okays')
-(19, 'bhuvansa', 2, 9, 6, 8, 9, 8.0, datetime.datetime(2024, 3, 2, 12, 40, 2, 283958), '')
-(18, 'bhuvansa', 2, 9, 6, 8, 9, 8.0, datetime.datetime(2024, 3, 2, 12, 38, 50, 264615), '')
-(18, 'bhuvansa', 1, 10, 8, 5, 6, 7.25, datetime.datetime(2024, 3, 2, 12, 38, 50, 264615), 'okays')
