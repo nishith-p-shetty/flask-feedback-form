@@ -5,6 +5,7 @@ body {
   background-color: #c8e7d8;
   text-align: center;
   font-family: monospace;
+  background-attachment: fixed;
 }
 
 h1,h2 {
@@ -116,6 +117,91 @@ input {
 }
 
 #sendFeedbackbtn:hover {
-  color: black;
+  background-color: #c0d0c0;
+  box-shadow: 20px 20px 40px rgba(92, 227, 34, 0.1);
+  transition: background-color 0.5s, border 0.5s;
   border: solid black 1px;
+}
+
+.dashboard-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-decoration: none;
+  color: black;
+  transition: background-color 0.33s, box-shadow 0.33s;
+}
+
+.dashboard-button:hover {
+  background: #c0d0c0;
+  box-shadow: 20px 20px 40px #c0d0c0;
+  transition: background 0.5s, box-shadow 0.5s;
+  border: solid black 1px;
+}
+
+.github-link {
+  position: absolute;
+  top: 0;
+  left: 0; /* Changed from right to left */
+  margin: 1rem;
+  padding: 1.5rem;
+  background-color: white;
+  background-image: url('https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png'); /* Add your GitHub logo URL here */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border-radius: 20px;
+  font-size: 1rem;
+  text-decoration: none;
+  color: black;
+  transition: background-color 0.33s, box-shadow 0.33s;
+}
+
+.github-link:hover {
+  background-color: #c0d0c0; /* Changed from background to background-color */
+  box-shadow: 20px 20px 40px #c0d0c0;
+  transition: background-color 0.5s, box-shadow 0.5s; /* Changed from background to background-color */
+  border: solid black 1px;
+}
+
+.form {
+  display: inline-block;
+  margin: 30px auto;
+  padding: 10px;
+  width: 500px;
+  background-color: white;
+  border-radius: 20px;
+  /* color: green; */
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    width: 90%; /* Adjust width to fit smaller screens */
+    margin: 20px auto; /* Adjust margin */
+  }
+
+  .dashboard-button, .github-link {
+    margin: 0.5rem; /* Adjust margin */
+    padding: 0.5rem; /* Adjust padding */
+  }
+  .github-link {
+    padding: 1rem; /* Adjust padding */
+  }
+
+  h1, h2 {
+    font-size: 2rem; /* Adjust font size */
+  }
+
+  input, .ntext {
+    font-size: 1.5rem; /* Adjust font size */
+  }
+
+  .slider {
+    width: 90%; /* Adjust width */
+  }
 }
