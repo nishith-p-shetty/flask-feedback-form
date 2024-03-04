@@ -1,173 +1,75 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login-style.css') }}">
-  <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
-  <style>
-    table,
-    th,
-    td {
-      border: 3px solid black;
-      border-collapse: collapse;
-    }
-
-    table {
-      margin: 0 auto;
-    }
-
-    th,
-    td {
-      padding: 5px;
-      text-align: left;
-    }
-
-    .logoutbtn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-color: red;
-      border: solid 3px black;
-      border-radius: 10%;
-      padding: 7px;
-      margin: 20px;
-      font-size: larger;
-    }
-
-    .refreshbtn {
-      position: absolute;
-      top: 0;
-      right: 50%;
-      background-color: lightblue;
-      border: solid 3px black;
-      border-radius: 10%;
-      padding: 7px;
-      margin: 20px;
-      font-size: larger;
-    }
-
-    .calcbtn {
-      position: relative;
-      background-color: green;
-      border: solid 3px black;
-      color: white;
-      border-radius: 20%;
-      padding: 7px;
-      margin: 20px;
-      font-size: larger;
-    }
-
-
-    .dash {
-      text-align: left;
-    }
-
-    nav {
-      position: fixed;
-      /* Set the navbar to fixed position */
-      top: 0;
-      /* Position the navbar at the top of the page */
-      width: 100%;
-      background-color: white;
-      align-items: center;
-    }
-  </style>
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
-  <nav>
-    <h1 class="dash">Dashboard</h1>
-    <form action="/dashboard" method="get">
-      <button class="refreshbtn" type="submit">Refresh</button>
-    </form>
-    <form action="/logout" method="get">
-      <button class="logoutbtn" type="submit">Logout</button>
-    </form>
-  </nav>
-  <br>
-  <br>
-  <br>
-  <br>
-  <hr>
-  <h2>Review Table</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>rev_id</th>
-        <th>reviewer_name</th>
-        <th>review_time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in tables[0]["rows"] %}
-      <tr>
-        <td>{{ row[0] }}</td>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <br>
-  {% for i in range(2, no_t+1) %}
-  <h2>Team {{ i-1 }} Table</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>team1_id</th>
-        <th>rev_id</th>
-        <th>field1</th>
-        <th>field2</th>
-        <th>field3</th>
-        <th>field4</th>
-        <th>average</th>
-        <th>msg</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in tables[i]["rows"] %}
-      <tr>
-        <td>{{ row[0] }}</td>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
-        <td>{{ row[4] }}</td>
-        <td>{{ row[5] }}</td>
-        <td>{{ row[6] }}</td>
-        <td>{{ row[7] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% endfor %}
-  <br>
-  <br>
-  <h2 style="margin: 0 auto;">Average Table</h2>
-  <form action="/calculate" method="get">
-    <button class="calcbtn" type="submit">Calculate</button>
-  </form>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Team Name</th>
-        <th>Average</th>
-        <th>Calculated Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in tables[no_t + 1]["rows"] %}
-      <tr>
-        <td>{{ row[0] }}</td>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <br>
-</body>
+    <div class="container mt-5">
+        <h1 class="text-center">Dashboard</h1>
 
+        <h2 class="mt-5">All Feedbacks</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Reviewer Name</th>
+                    <th>Team Number</th>
+                    <th>Field1 Rating</th>
+                    <th>Field2 Rating</th>
+                    <th>Field3 Rating</th>
+                    <th>Field4 Rating</th>
+                    <th>Average Rating</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="mt-5">Best Team</h2>
+        <p>Team ID: {{ best_team[0] }}</p>
+        <p>Average Rating: {{ best_team[1] }}</p>
+
+        <h2 class="mt-5">Best in Fields</h2>
+        {% for field, team in best_in_fields.items() %}
+        <h3>{{ field }}</h3>
+        <p>Team ID: {{ team[0] }}</p>
+        <p>Average Rating: {{ team[1] }}</p>
+        {% endfor %}
+
+        <h2 class="mt-5">Reviewer Statistics</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Reviewer ID</th>
+                    <th>Review Count</th>
+                    <th>Average Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in reviewer_stats %}
+                <tr>
+                    <td>{{ stat[0] }}</td>
+                    <td>{{ stat[1] }}</td>
+                    <td>{{ stat[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
 </html>
