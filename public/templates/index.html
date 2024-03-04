@@ -9,15 +9,12 @@
   <link rel="icon" type="image/png" sizes="30x30" href="{{ url_for('static', filename='images/star.png')}}">
 </head>
 <small> Please give us your valuable feedback <br><br> </small>
-
 <body>
     <a href="/dashboard" class="dashboard-button">Dashboard</a>
-    <a href="https://github.com/bhuvansa/flask-feedback-form" class="github-link">       </a>
+    <a href="https://github.com/bhuvansa/flask-feedback-form" class="github-link"> </a>
   <div class="form">
     <h1> Feedback form </h1>
   </div>
-  <br>
-  <br>
   <form action="/submit" method="POST">
     <div class="form">
       <input type="text" placeholder="Enter your name" name="reviewer_name">

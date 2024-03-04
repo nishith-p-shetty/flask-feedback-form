@@ -3,42 +3,102 @@
 <head>
     <title>Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Dashboard</h1>
+        <div class="form">
+            <h1>Dashboard</h1>
+        </div>
+        <br/>
+        <div class="form d-flex justify-content-between align-items-center" style="margin-bottom: 0px; width: 90%;">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <h2>Recent Feedbacks</h2>
+            </div>
+            <div class="col-md-4">
+                <form method="GET" action="/dashboard">
+                    <div class="d-flex">
+                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Enter Reviewer Name" value="{{ search }}">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+            <table class="table" style="width: 90%;">
+                <thead>
+                    <tr>
+                        <th>Reviewer Name</th>
+                        <th>Team Number</th>
+                        <th>Field1 Rating</th>
+                        <th>Field2 Rating</th>
+                        <th>Field3 Rating</th>
+                        <th>Field4 Rating</th>
+                        <th>Average Rating</th>
+                        <th>Review Time</th>
+                        <th>Feedback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td>{{ row[5] }}</td>
+                        <td>{{ row[6] }}</td>
+                        <td>{{ row[7] }}</td>
+                        <td>{{ row[8] }}</td>
+                        <td>{{ row[9] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <!-- <div class="pagination">
+                    {% for page_num in range(1, total_pages+1) %}
+                        {% if page_num != page %}
+                            <a href="{{ url_for('dashboard', page=page_num) }}">{{ page_num }}</a>
+                        {% else %}
+                            <span>{{ page_num }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div> -->
+            </table>
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if page != 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('dashboard', page=page-1, search=search) }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for page_num in range(1, total_pages+1) %}
+                            {% if page_num != page %}
+                                <li class="page-item"><a class="page-link" href="{{ url_for('dashboard', page=page_num, search=search) }}">{{ page_num }}</a></li>
+                            {% else %}
+                                <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page != total_pages %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('dashboard', page=page+1, search=search) }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
 
-        <h2 class="mt-5">All Feedbacks</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Reviewer Name</th>
-                    <th>Team Number</th>
-                    <th>Field1 Rating</th>
-                    <th>Field2 Rating</th>
-                    <th>Field3 Rating</th>
-                    <th>Field4 Rating</th>
-                    <th>Average Rating</th>
-                    <th>Feedback</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in data %}
-                <tr>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
-                    <td>{{ row[4] }}</td>
-                    <td>{{ row[5] }}</td>
-                    <td>{{ row[6] }}</td>
-                    <td>{{ row[7] }}</td>
-                    <td>{{ row[8] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <h2 class="mt-5">Best Team</h2>
+        <div class="form" style="margin-bottom: 0px; width: 90%;">
+            <h2>Best Teams</h2>
+        </div>
+        <br/>
         <p>Team ID: {{ best_team[0] }}</p>
         <p>Average Rating: {{ best_team[1] }}</p>
 
@@ -48,27 +108,6 @@
         <p>Team ID: {{ team[0] }}</p>
         <p>Average Rating: {{ team[1] }}</p>
         {% endfor %}
-
-        <h2 class="mt-5">Reviewer Statistics</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Reviewer ID</th>
-                    <th>Review Count</th>
-                    <th>Average Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for stat in reviewer_stats %}
-                <tr>
-                    <td>{{ stat[0] }}</td>
-                    <td>{{ stat[1] }}</td>
-                    <td>{{ stat[2] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
