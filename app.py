@@ -129,20 +129,46 @@ def login():
     return render_template('login.html', error=error)
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', '', type=str)
+
     conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
                             password=DB_PASSWORD, host=DB_HOST)
     cursor = conn.cursor()
 
+    # Caluculate the total number of pages
+    cursor.execute('''SELECT COUNT(*) FROM feedbacks JOIN reviewer 
+                    ON
+                    feedbacks.reviewer_id = reviewer.reviewer_id
+                    WHERE reviewer_name LIKE %s''',
+                   ('%' + search + '%',))
+    total_feedbacks = cursor.fetchone()
+    total_feedbacks = total_feedbacks[0] if total_feedbacks is not None else 0
+    total_pages = (total_feedbacks // 5) + 1
+
     # Fetch all feedbacks with reviewer and team details
     cursor.execute('''
-        SELECT feedbacks.reviewer_id, reviewer.reviewer_name, team.team_number, feedbacks.field1_rating, feedbacks.field2_rating, feedbacks.field3_rating, feedbacks.field4_rating, feedbacks.average_rating, feedbacks.feedback
+        SELECT 
+            feedbacks.reviewer_id,
+            reviewer.reviewer_name,
+            team.team_number,
+            feedbacks.field1_rating,
+            feedbacks.field2_rating,
+            feedbacks.field3_rating,
+            feedbacks.field4_rating,
+            feedbacks.average_rating,
+            reviewer.review_time,
+            feedbacks.feedback
         FROM feedbacks
         INNER JOIN reviewer ON feedbacks.reviewer_id = reviewer.reviewer_id
         INNER JOIN team ON feedbacks.team_id = team.team_id
-        ORDER BY feedbacks.average_rating LIMIT 5;
-    ''')
+        WHERE reviewer.reviewer_name LIKE %s
+        ORDER BY reviewer.review_time DESC 
+        LIMIT 5 OFFSET %s;
+    ''', ('%' + search + '%', (page-1)*5))
+
     data = cursor.fetchall()
 
     # with open('data.txt', 'w') as f:
@@ -184,7 +210,7 @@ def dashboard():
     cursor.close()
     conn.close()
 
-    return render_template('dashboard.html', data=data, best_team=best_team, best_in_fields=best_in_fields, reviewer_stats=reviewer_stats)
+    return render_template('dashboard.html', data=data, best_team=best_team, best_in_fields=best_in_fields, reviewer_stats=reviewer_stats, total_pages=total_pages, page=page, search=search)
 
 
 @app.route('/logout')
