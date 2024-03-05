@@ -171,46 +171,47 @@ def dashboard():
 
     data = cursor.fetchall()
 
-    # with open('data.txt', 'w') as f:
-    #     for row in data:
-    #         f.write(str(row)+'\n')
+    # TODO Implement dynamic teams
 
-    # Fetch the team with the highest average rating
     cursor.execute('''
-        SELECT team_id, AVG(average_rating) as avg_rating
+        (SELECT 'average_rating' AS rating_type, team_id, AVG(average_rating) AS rating
         FROM feedbacks
         GROUP BY team_id
-        ORDER BY avg_rating DESC
-        LIMIT 1;
-    ''')
-    best_team = cursor.fetchone()
-
-    # Fetch the team with the highest rating in each field
-    fields = ['field1_rating', 'field2_rating',
-              'field3_rating', 'field4_rating']
-    best_in_fields = {}
-    for field in fields:
-        cursor.execute(f'''
-            SELECT team_id, AVG({field}) as avg_rating
-            FROM feedbacks
-            GROUP BY team_id
-            ORDER BY avg_rating DESC
-            LIMIT 1;
-        ''')
-        best_in_fields[field] = cursor.fetchone()
-
-    # Fetch reviewer statistics
-    cursor.execute('''
-        SELECT reviewer_id, COUNT(*) as review_count, AVG(average_rating) as avg_rating
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field1_rating' AS rating_type, team_id, AVG(field1_rating) AS rating
         FROM feedbacks
-        GROUP BY reviewer_id;
+        GROUP BY team_id
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field2_rating' AS rating_type, team_id, AVG(field2_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field3_rating' AS rating_type, team_id, AVG(field3_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field4_rating' AS rating_type, team_id, AVG(field4_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC)
     ''')
-    reviewer_stats = cursor.fetchall()
+    best_teams = cursor.fetchall()
 
     cursor.close()
     conn.close()
 
-    return render_template('dashboard.html', data=data, best_team=best_team, best_in_fields=best_in_fields, reviewer_stats=reviewer_stats, total_pages=total_pages, page=page, search=search)
+    return render_template(
+        'dashboard.html',
+        best_teams=best_teams,
+        data=data,
+        total_pages=total_pages,
+        page=page,
+        search=search
+    )
 
 
 @app.route('/logout')

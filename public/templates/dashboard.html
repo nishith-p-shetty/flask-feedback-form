@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
 </head>
 <body>
+    TODO: Implement dynamic teams 
         <div class="form">
             <h1>Dashboard</h1>
         </div>
@@ -57,15 +58,6 @@
                     </tr>
                     {% endfor %}
                 </tbody>
-                <!-- <div class="pagination">
-                    {% for page_num in range(1, total_pages+1) %}
-                        {% if page_num != page %}
-                            <a href="{{ url_for('dashboard', page=page_num) }}">{{ page_num }}</a>
-                        {% else %}
-                            <span>{{ page_num }}</span>
-                        {% endif %}
-                    {% endfor %}
-                </div> -->
             </table>
             <div class="d-flex justify-content-center">
                 <nav aria-label="Page navigation example">
@@ -99,15 +91,29 @@
             <h2>Best Teams</h2>
         </div>
         <br/>
-        <p>Team ID: {{ best_team[0] }}</p>
-        <p>Average Rating: {{ best_team[1] }}</p>
 
-        <h2 class="mt-5">Best in Fields</h2>
-        {% for field, team in best_in_fields.items() %}
-        <h3>{{ field }}</h3>
-        <p>Team ID: {{ team[0] }}</p>
-        <p>Average Rating: {{ team[1] }}</p>
-        {% endfor %}
+        <table class="table" style="width: 90%;">
+            <thead>
+                <tr>
+                    <th>Average of all</th>
+                    <th>Creativity</th>
+                    <th>Explination</th>
+                    <th>Scalability</th>
+                    <th>Presentaion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(0,3) %}
+                <tr>
+                    <td>Team {{ best_teams[i][1] }} ({{ best_teams[i][2] }})</td>
+                    <td>Team {{ best_teams[i+3][1] }} ({{ best_teams[i+3][2] }})</td>
+                    <td>Team {{ best_teams[i+6][1] }} ({{ best_teams[i+6][2] }})</td>
+                    <td>Team {{ best_teams[i+9][1] }} ({{ best_teams[i+9][2] }})</td>
+                    <td>Team {{ best_teams[i+12][1] }} ({{ best_teams[i+12][2] }})</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
