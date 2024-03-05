@@ -129,62 +129,89 @@ def login():
     return render_template('login.html', error=error)
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    page = request.args.get('page', 1, type=int)
+    search = request.args.get('search', '', type=str).strip()
+
     conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
                             password=DB_PASSWORD, host=DB_HOST)
     cursor = conn.cursor()
 
+    # Caluculate the total number of pages
+    cursor.execute('''SELECT COUNT(*) FROM feedbacks JOIN reviewer 
+                    ON
+                    feedbacks.reviewer_id = reviewer.reviewer_id
+                    WHERE reviewer_name LIKE %s''',
+                   ('%' + search + '%',))
+    total_feedbacks = cursor.fetchone()
+    total_feedbacks = total_feedbacks[0] if total_feedbacks is not None else 0
+    total_pages = (total_feedbacks // 5) + 1
+
     # Fetch all feedbacks with reviewer and team details
     cursor.execute('''
-        SELECT feedbacks.reviewer_id, reviewer.reviewer_name, team.team_number, feedbacks.field1_rating, feedbacks.field2_rating, feedbacks.field3_rating, feedbacks.field4_rating, feedbacks.average_rating, feedbacks.feedback
+        SELECT 
+            feedbacks.reviewer_id,
+            reviewer.reviewer_name,
+            team.team_number,
+            feedbacks.field1_rating,
+            feedbacks.field2_rating,
+            feedbacks.field3_rating,
+            feedbacks.field4_rating,
+            feedbacks.average_rating,
+            reviewer.review_time,
+            feedbacks.feedback
         FROM feedbacks
         INNER JOIN reviewer ON feedbacks.reviewer_id = reviewer.reviewer_id
         INNER JOIN team ON feedbacks.team_id = team.team_id
-        ORDER BY feedbacks.average_rating LIMIT 5;
-    ''')
+        WHERE reviewer.reviewer_name LIKE %s
+        ORDER BY reviewer.review_time DESC 
+        LIMIT 5 OFFSET %s;
+    ''', ('%' + search + '%', (page-1)*5))
+
     data = cursor.fetchall()
 
-    # with open('data.txt', 'w') as f:
-    #     for row in data:
-    #         f.write(str(row)+'\n')
+    # TODO Implement dynamic teams
 
-    # Fetch the team with the highest average rating
     cursor.execute('''
-        SELECT team_id, AVG(average_rating) as avg_rating
+        (SELECT 'average_rating' AS rating_type, team_id, AVG(average_rating) AS rating
         FROM feedbacks
         GROUP BY team_id
-        ORDER BY avg_rating DESC
-        LIMIT 1;
-    ''')
-    best_team = cursor.fetchone()
-
-    # Fetch the team with the highest rating in each field
-    fields = ['field1_rating', 'field2_rating',
-              'field3_rating', 'field4_rating']
-    best_in_fields = {}
-    for field in fields:
-        cursor.execute(f'''
-            SELECT team_id, AVG({field}) as avg_rating
-            FROM feedbacks
-            GROUP BY team_id
-            ORDER BY avg_rating DESC
-            LIMIT 1;
-        ''')
-        best_in_fields[field] = cursor.fetchone()
-
-    # Fetch reviewer statistics
-    cursor.execute('''
-        SELECT reviewer_id, COUNT(*) as review_count, AVG(average_rating) as avg_rating
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field1_rating' AS rating_type, team_id, AVG(field1_rating) AS rating
         FROM feedbacks
-        GROUP BY reviewer_id;
+        GROUP BY team_id
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field2_rating' AS rating_type, team_id, AVG(field2_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field3_rating' AS rating_type, team_id, AVG(field3_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field4_rating' AS rating_type, team_id, AVG(field4_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC)
     ''')
-    reviewer_stats = cursor.fetchall()
+    best_teams = cursor.fetchall()
 
     cursor.close()
     conn.close()
 
-    return render_template('dashboard.html', data=data, best_team=best_team, best_in_fields=best_in_fields, reviewer_stats=reviewer_stats)
+    return render_template(
+        'dashboard.html',
+        best_teams=best_teams,
+        data=data,
+        total_pages=total_pages,
+        page=page,
+        search=search
+    )
 
 
 @app.route('/logout')
