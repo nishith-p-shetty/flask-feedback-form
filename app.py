@@ -171,8 +171,6 @@ def dashboard():
 
     data = cursor.fetchall()
 
-    # TODO Implement dynamic teams
-
     cursor.execute('''
         (SELECT 'average_rating' AS rating_type, team_id, AVG(average_rating) AS rating
         FROM feedbacks
