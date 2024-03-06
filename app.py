@@ -210,7 +210,8 @@ def dashboard():
         data=data,
         total_pages=total_pages,
         page=page,
-        search=search
+        search=search,
+        no_of_teams=NO_OF_TEAMS
     )
 
 
