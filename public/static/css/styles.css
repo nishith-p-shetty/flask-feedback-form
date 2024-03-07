@@ -173,51 +173,62 @@ input {
   display: inline-block;
   margin: 30px auto;
   padding: 10px;
-  width: 500px;
+  width: 90%;
   background-color: white;
   border-radius: 20px;
   /* color: green; */
 }
 .table {
-  width: 100%;
-  margin: 1rem 0;
-  display: inline-block;
-  border-collapse: collapse;
-  border-radius: 20px; /* Add border radius */
-  overflow: hidden; 
-  box-shadow: 0 0 20px rgba(0,0,0,0.15); /* Add box shadow */
-  text-align: center;
+  width: 90%;
+  margin : auto;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .table th, .table td {
   padding: 1rem;
   border: 1px solid #ddd;
   text-align: left;
+  text-align: center;
 }
 
 .table th {
-  background-color: #f5f5f5;
+  background-color: #eaeaea;
   color: black;
 }
 
 .table tr {
   border-radius: 20px;
-}
-
-.tabel tbody {
-  transition: background-color 0.33s;
-  background-color: white;
+  background-color: #f5f5f5;
 }
 
 .table tbody tr:hover {
-  background-color: #f5f5f5;
+  background-color: #eaeaea;
+}
+
+.desktop-pagination {
+  display: block;
+}
+
+.mobile-pagination {
+  display: none;
+}
+.df {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 /* Responsive styles */
 @media screen and (max-width: 600px) {
   .table {
-    display: block;
+    display: inline-block;
+    margin: 20px auto;
     overflow-x: auto;
+    width: 90%;
     white-space: nowrap;
   }
 
@@ -244,5 +255,37 @@ input {
 
   .slider {
     width: 90%; /* Adjust width */
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .pagination .page-item {
+    margin: 0.5rem 0;
+  }
+
+  .desktop-pagination {
+    display: none;
+  }
+  .mobile-pagination {
+    display: block;
+  }
+  .mobile-pagination form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .mobile-pagination input[type="number"] {
+    width: 50px; /* Adjust as needed */
+  }
+
+  .mobile-pagination input[type="submit"] {
+    padding: 5px 10px;
+    border-color: #c0d0c0;
+  }
+  .df {
+    flex-direction: column;
   }
 }
