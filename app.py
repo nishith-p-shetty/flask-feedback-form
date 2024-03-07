@@ -1,7 +1,7 @@
 import psycopg2
 import os
 from datetime import datetime as dt
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -218,6 +218,12 @@ def logout():
     session.pop('logged_in', None)
     flash('Logout Successful')
     return redirect(url_for('login'))
+
+
+@app.route('/favicon.ico')
+def favicon():
+    # return redirect(url_for('static', filename='images/favicon.ico'))
+    return redirect(url_for('static', filename='favicon.ico'))
 
 
 if __name__ == '__main__':
