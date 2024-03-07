@@ -178,6 +178,11 @@ input {
   border-radius: 20px;
   /* color: green; */
 }
+
+.user_page {
+  width: 550px;
+
+}
 .table {
   width: 90%;
   margin : auto;
@@ -255,6 +260,11 @@ input {
 
   .slider {
     width: 90%; /* Adjust width */
+  }
+
+  .rate_team {
+    margin-top : 2rem;
+    margin-bottom: 2rem;
   }
 
   .pagination {
