@@ -1,119 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Dashboard</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
-</head>
-<body>
+    <head>
+        <title>Dashboard</title>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet"
+            href="{{ url_for('static', filename='css/styles.css')}}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
         <div class="form">
             <h1>Dashboard</h1>
         </div>
-        <br/>
-        <div class="form d-flex justify-content-between align-items-center" style="margin-bottom: 0px; width: 90%;">
+        <br />
+        <div class="form df">
             <div class="col-md-4">
             </div>
             <div class="col-md-4">
                 <h2>Recent Feedbacks</h2>
             </div>
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
                 <form method="GET" action="/dashboard">
-                    <div class="d-flex">
-                        <input class="form-control mr-sm-2" type="text" name="search" placeholder="Enter Reviewer Name" value="{{ search }}">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                    <div class="d-md-flex">
+                        <input class="form-control mr-sm-2" type="text"
+                            name="search" placeholder="Enter Reviewer Name"
+                            value="{{ search }}">
+                        <button class="btn btn-outline-success my-2 my-sm-0"
+                            type="submit">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-            <table class="table" style="width: 90%;">
-                <thead>
-                    <tr>
-                        <th>Reviewer Name</th>
-                        <th>Team Number</th>
-                        <th>Field1 Rating</th>
-                        <th>Field2 Rating</th>
-                        <th>Field3 Rating</th>
-                        <th>Field4 Rating</th>
-                        <th>Average Rating</th>
-                        <th>Review Time</th>
-                        <th>Feedback</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in data %}
-                    <tr>
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
-                        <td>{{ row[3] }}</td>
-                        <td>{{ row[4] }}</td>
-                        <td>{{ row[5] }}</td>
-                        <td>{{ row[6] }}</td>
-                        <td>{{ row[7] }}</td>
-                        <td>{{ row[8] }}</td>
-                        <td>{{ row[9] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-center">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        {% if page != 1 %}
-                            <li class="page-item">
-                                <a class="page-link" href="{{ url_for('dashboard', page=page-1, search=search) }}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% for page_num in range(1, total_pages+1) %}
-                            {% if page_num != page %}
-                                <li class="page-item"><a class="page-link" href="{{ url_for('dashboard', page=page_num, search=search) }}">{{ page_num }}</a></li>
-                            {% else %}
-                                <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
-                            {% endif %}
-                        {% endfor %}
-                        {% if page != total_pages %}
-                            <li class="page-item">
-                                <a class="page-link" href="{{ url_for('dashboard', page=page+1, search=search) }}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
-
-        <div class="form" style="margin-bottom: 0px; width: 90%;">
-            <h2>Best Teams</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Reviewer Name</th>
+                    <th>Team Number</th>
+                    <th>Creativity</th>
+                    <th>Explanation</th>
+                    <th>Scalability</th>
+                    <th>Presentation</th>
+                    <th>Average Rating</th>
+                    <th>Review Time</th>
+                    <th>Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
+                    <td>{{ row[8] }}</td>
+                    <td>{{ row[9] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination desktop-pagination">
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                {% if page != 1 %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ url_for('dashboard', page=page-1, search=search) }}"
+                                        aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% for page_num in range(1, total_pages+1) %}
+                                {% if page_num != page %}
+                                <li class="page-item"><a class="page-link"
+                                        href="{{ url_for('dashboard', page=page_num, search=search) }}">{{
+                                        page_num }}</a></li>
+                                {% else %}
+                                <li class="page-item active"><span
+                                        class="page-link">{{ page_num
+                                        }}</span></li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if page != total_pages %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="{{ url_for('dashboard', page=page+1, search=search) }}"
+                                        aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </ul>
+                <div class="mobile-pagination form">
+                    <form action="/dashboard" method="GET">
+                        <div>
+                            <label style="font-size: large;"
+                                for="page">Page:</label>
+                            <input type="number" id="page" name="page" min="1"
+                                max="{{ total_pages }}" value="{{ page }}">/{{
+                            total_pages }}
+                            <input type="hidden" name="search"
+                                value="{{ search }}">
+                            <input type="submit" value="Go">
+                        </div>
+                    </form>
+                </div>
+            </nav>
         </div>
-        <br/>
 
-        <table class="table" style="width: 90%;">
+        <div class="form df">
+            <h2>Best teams ordered by category</h2>
+        </div>
+        <table class="table" id="best_teams">
             <thead>
                 <tr>
                     <th>Average of all</th>
                     <th>Creativity</th>
-                    <th>Explination</th>
+                    <th>Explanation</th>
                     <th>Scalability</th>
-                    <th>Presentaion</th>
+                    <th>Presentation</th>
                 </tr>
             </thead>
             <tbody>
-                {% for i in range(0,3) %}
+                {% for i in range(0,no_of_teams) %}
                 <tr>
-                    <td>Team {{ best_teams[i][1] }} ({{ best_teams[i][2] }})</td>
-                    <td>Team {{ best_teams[i+3][1] }} ({{ best_teams[i+3][2] }})</td>
-                    <td>Team {{ best_teams[i+6][1] }} ({{ best_teams[i+6][2] }})</td>
-                    <td>Team {{ best_teams[i+9][1] }} ({{ best_teams[i+9][2] }})</td>
-                    <td>Team {{ best_teams[i+12][1] }} ({{ best_teams[i+12][2] }})</td>
+                    <td>Team {{ best_teams[i][1] }} ({{ best_teams[i][2]
+                        }})</td>
+                    <td>Team {{ best_teams[i+no_of_teams*1][1] }} ({{
+                        best_teams[i+no_of_teams*1][2] }})</td>
+                    <td>Team {{ best_teams[i+no_of_teams*2][1] }} ({{
+                        best_teams[i+no_of_teams*2][2] }})</td>
+                    <td>Team {{ best_teams[i+no_of_teams*3][1] }} ({{
+                        best_teams[i+no_of_teams*3][2] }})</td>
+                    <td>Team {{ best_teams[i+no_of_teams*4][1] }} ({{
+                        best_teams[i+no_of_teams*4][2] }})</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-</body>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </body>
 </html>
