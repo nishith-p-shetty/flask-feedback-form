@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <title>Feedback Submitted</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
-</head>
+  <head>
+    <title>Feedback Submitted</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
+  </head>
 
-<body>
-  <a href="/dashboard" class="dashboard-button">Dashboard</a>
-  <a href="https://github.com/bhuvansa/flask-feedback-form" class="github-link">       </a>
-  <div class="form">
-    <h1> Thankyou for your feedback! {{ name }} </h1>
-  </div>
-</body>
+  <body>
+    <a href="/dashboard" class="dashboard-button">Dashboard</a>
+    <a href="https://github.com/bhuvansa/flask-feedback-form"
+      class="github-link"> </a>
+    <div class="form user_page">
+      <h1> Thankyou for your feedback! {{ name }} </h1>
+    </div>
+  </body>
 
 </html>

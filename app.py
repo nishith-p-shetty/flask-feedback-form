@@ -236,7 +236,6 @@ def delete_feedback(feedback_id):
     conn.commit()
     cursor.close()
     conn.close()
-    print("reqest to deelte feedbac")
 
     flash('Feedback deleted successfully.')
     return redirect(url_for('dashboard'))
