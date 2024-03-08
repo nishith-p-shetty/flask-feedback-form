@@ -143,7 +143,7 @@ def dashboard():
     cursor.execute('''SELECT COUNT(*) FROM feedbacks JOIN reviewer 
                     ON
                     feedbacks.reviewer_id = reviewer.reviewer_id
-                    WHERE reviewer_name LIKE %s''',
+                    WHERE LOWER(reviewer_name) LIKE %s''',
                    ('%' + search + '%',))
     total_feedbacks = cursor.fetchone()
     total_feedbacks = total_feedbacks[0] if total_feedbacks is not None else 0
@@ -165,7 +165,7 @@ def dashboard():
         FROM feedbacks
         INNER JOIN reviewer ON feedbacks.reviewer_id = reviewer.reviewer_id
         INNER JOIN team ON feedbacks.team_id = team.team_id
-        WHERE reviewer.reviewer_name LIKE %s
+        WHERE LOWER(reviewer.reviewer_name) LIKE %s
         ORDER BY reviewer.review_time DESC 
         LIMIT 5 OFFSET %s;
     ''', ('%' + search + '%', (page-1)*5))
