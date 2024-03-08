@@ -48,6 +48,7 @@
                     <th>Average Rating</th>
                     <th>Review Time</th>
                     <th>Feedback</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,6 +63,13 @@
                     <td>{{ row[7] }}</td>
                     <td>{{ row[8] }}</td>
                     <td>{{ row[9] }}</td>
+                    <td>
+                        <a
+                            href="{{ url_for('delete_feedback', feedback_id=row[0]) }}">
+                            <i class="fa fa-trash"
+                                style="color: lightcoral;"></i>
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

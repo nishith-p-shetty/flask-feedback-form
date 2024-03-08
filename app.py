@@ -1,7 +1,7 @@
 import psycopg2
 import os
 from datetime import datetime as dt
-from flask import Flask, render_template, request, session, redirect, url_for, flash, send_from_directory
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -19,7 +19,8 @@ NO_OF_TEAMS = 3
 
 
 conn = psycopg2.connect(
-    host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME)
+    host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME,
+    sslmode='require')
 
 
 cursor = conn.cursor()
@@ -132,7 +133,7 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     page = request.args.get('page', 1, type=int)
-    search = request.args.get('search', '', type=str).strip()
+    search = request.args.get('search', '', type=str).strip().lower()
 
     conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
                             password=DB_PASSWORD, host=DB_HOST)
@@ -142,7 +143,7 @@ def dashboard():
     cursor.execute('''SELECT COUNT(*) FROM feedbacks JOIN reviewer 
                     ON
                     feedbacks.reviewer_id = reviewer.reviewer_id
-                    WHERE reviewer_name LIKE %s''',
+                    WHERE LOWER(reviewer_name) LIKE %s''',
                    ('%' + search + '%',))
     total_feedbacks = cursor.fetchone()
     total_feedbacks = total_feedbacks[0] if total_feedbacks is not None else 0
@@ -151,7 +152,7 @@ def dashboard():
     # Fetch all feedbacks with reviewer and team details
     cursor.execute('''
         SELECT 
-            feedbacks.reviewer_id,
+            feedbacks.feedback_id,
             reviewer.reviewer_name,
             team.team_number,
             feedbacks.field1_rating,
@@ -164,7 +165,7 @@ def dashboard():
         FROM feedbacks
         INNER JOIN reviewer ON feedbacks.reviewer_id = reviewer.reviewer_id
         INNER JOIN team ON feedbacks.team_id = team.team_id
-        WHERE reviewer.reviewer_name LIKE %s
+        WHERE LOWER(reviewer.reviewer_name) LIKE %s
         ORDER BY reviewer.review_time DESC 
         LIMIT 5 OFFSET %s;
     ''', ('%' + search + '%', (page-1)*5))
@@ -218,6 +219,26 @@ def logout():
     session.pop('logged_in', None)
     flash('Logout Successful')
     return redirect(url_for('login'))
+
+
+@app.route('/delete_feedback/<int:feedback_id>', methods=['GET'])
+def delete_feedback(feedback_id):
+    if not session.get('logged_in'):
+        flash('Please login to delete feedback.')
+        return redirect(url_for('login'))
+
+    conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
+                            password=DB_PASSWORD, host=DB_HOST)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'DELETE FROM feedbacks WHERE feedback_id = %s', (feedback_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    flash('Feedback deleted successfully.')
+    return redirect(url_for('dashboard'))
 
 
 @app.route('/favicon.ico')
