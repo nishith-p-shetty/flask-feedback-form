@@ -1,7 +1,7 @@
 import psycopg2
 import os
 from datetime import datetime as dt
-from flask import Flask, render_template, request, session, redirect, url_for, flash, send_from_directory
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_cors import CORS
 from dotenv import load_dotenv
 
@@ -132,7 +132,7 @@ def login():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     page = request.args.get('page', 1, type=int)
-    search = request.args.get('search', '', type=str).strip()
+    search = request.args.get('search', '', type=str).strip().lower()
 
     conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
                             password=DB_PASSWORD, host=DB_HOST)
@@ -151,7 +151,7 @@ def dashboard():
     # Fetch all feedbacks with reviewer and team details
     cursor.execute('''
         SELECT 
-            feedbacks.reviewer_id,
+            feedbacks.feedback_id,
             reviewer.reviewer_name,
             team.team_number,
             feedbacks.field1_rating,
@@ -218,6 +218,27 @@ def logout():
     session.pop('logged_in', None)
     flash('Logout Successful')
     return redirect(url_for('login'))
+
+
+@app.route('/delete_feedback/<int:feedback_id>', methods=['GET'])
+def delete_feedback(feedback_id):
+    if not session.get('logged_in'):
+        flash('Please login to delete feedback.')
+        return redirect(url_for('login'))
+
+    conn = psycopg2.connect(database=DB_NAME, user=DB_USER,
+                            password=DB_PASSWORD, host=DB_HOST)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        'DELETE FROM feedbacks WHERE feedback_id = %s', (feedback_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print("reqest to deelte feedbac")
+
+    flash('Feedback deleted successfully.')
+    return redirect(url_for('dashboard'))
 
 
 @app.route('/favicon.ico')

@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <title>Login</title>
-  <!-- <link rel="stylesheet" href="static/login-style.css"> -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login-style.css') }}">
-  <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
-</head>
+  <head>
+    <title>Login</title>
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="icon" type="image/png" sizes="30x30" href="static/star.png">
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
 
-<body>
-  {% if error %}
-  <p><strong>{{ error }}</strong></p>
-  {% endif %}
-  <form class="form" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br>
-    <input class="loginbtn" type="submit" value="Login">
-  </form>
-</body>
+  <body>
+    {% if error %}
+    <p><strong>{{ error }}</strong></p>
+    {% endif %}
+    <div class="form user_page">
+      <h1> Login </h1>
+    </div>
+    <br />
+    <form class="form user_page" method="post">
+      <label for="username">Username:</label>
+      <div
+        style="border-radius: 20px; border: 2px solid; border-color:aquamarine; margin-left: 80px; margin-right: 80px ">
+        <input type="text" id="username" name="username"
+          required>
+      </div>
+      <br>
+      <label for="password">Password:</label>
+      <div
+        style="border-radius: 20px; border: 2px solid; border-color:aquamarine; margin-left: 80px; margin-right: 80px">
+        <input type="password" id="password" name="password" required>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </body>
 
 </html>
