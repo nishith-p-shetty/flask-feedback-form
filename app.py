@@ -19,7 +19,8 @@ NO_OF_TEAMS = 3
 
 
 conn = psycopg2.connect(
-    host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME)
+    host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME,
+    sslmode='require')
 
 
 cursor = conn.cursor()
