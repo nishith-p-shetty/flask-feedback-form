@@ -15,8 +15,15 @@ DB_NAME = os.environ.get('FEEDBACK_FORM_DB_NAME')
 DB_USER = os.environ.get('FEEDBACK_FORM_DB_USER')
 DB_PASSWORD = os.environ.get('FEEDBACK_FORM_DB_PASSWORD')
 
-print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
-      DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
+# ADMIN_USERNAME = os.environ.get('FEEDBACK_FORM_ADMIN_USERNAME')
+# SECRET_KEY = os.environ.get('FEEDBACK_FORM_SECRET_KEY')
+# DB_USER = "default"
+# DB_HOST = "ep-sparkling-resonance-a1x5k0je-pooler.ap-southeast-1.aws.neon.tech"
+# DB_PASSWORD = "GI8YseR5UJZV"
+# DB_NAME = "verceldb"
+
+# print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
+#   DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
 
 NO_OF_TEAMS = 44
 
