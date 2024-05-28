@@ -45,6 +45,7 @@
                     <th>Explanation</th>
                     <th>Scalability</th>
                     <th>Presentation</th>
+                    <th>New Column</th>
                     <th>Average Rating</th>
                     <th>Review Time</th>
                     <th>Feedback</th>
@@ -63,6 +64,7 @@
                     <td>{{ row[7] }}</td>
                     <td>{{ row[8] }}</td>
                     <td>{{ row[9] }}</td>
+                    <td>{{ row[10] }}</td>
                     <td>
                         <a
                             href="{{ url_for('delete_feedback', feedback_id=row[0]) }}">
@@ -141,6 +143,7 @@
                     <th>Explanation</th>
                     <th>Scalability</th>
                     <th>Presentation</th>
+                    <th>New column</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,6 +159,8 @@
                         best_teams[i+no_of_teams*3][2] }})</td>
                     <td>Team {{ best_teams[i+no_of_teams*4][1] }} ({{
                         best_teams[i+no_of_teams*4][2] }})</td>
+                    <td>Team {{ best_teams[i+no_of_teams*5][1] }} ({{
+                        best_teams[i+no_of_teams*5][2] }})</td>
                 </tr>
                 {% endfor %}
             </tbody>

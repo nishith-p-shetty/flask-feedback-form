@@ -21,6 +21,7 @@
     <form action="/submit" method="POST">
       <div class="form user_page">
         <input type="text" placeholder="Enter your name" name="reviewer_name"
+          maxlength="30"
           required>
       </div>
       <br>
@@ -52,13 +53,20 @@
             name="team_id{{ i }}_field3_rating">
         </div>
         <div class="rate_team" style="margin-top: 2rem;">
-          <label>Finally, overall, how impressed were you with the team's
-            solution
-            and presentation?</label>
+          <label>New question</label>
           <div id="starno{{ i }}_field4_rating">Rating: 1 ⭐️</div>
           <input type="range" min="1" max="10" value="1" class="slider"
             id="team_id{{ i }}_field4_rating"
             name="team_id{{ i }}_field4_rating">
+        </div>
+        <div class="rate_team" style="margin-top: 2rem;">
+          <label>Finally, jaime overall, how impressed were you with the team's
+            solution
+            and presentation?</label>
+          <div id="starno{{ i }}_field5_rating">Rating: 1 ⭐️</div>
+          <input type="range" min="1" max="10" value="1" class="slider"
+            id="team_id{{ i }}_field5_rating"
+            name="team_id{{ i }}_field5_rating">
           <input type="text" rows="3" placeholder="Enter feedback" class="ntext"
             id="team_id{{ i }}_feedback" name="team_id{{ i }}_feedback"
             maxlength="255">

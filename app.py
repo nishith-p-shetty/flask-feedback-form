@@ -15,12 +15,15 @@ DB_NAME = os.environ.get('FEEDBACK_FORM_DB_NAME')
 DB_USER = os.environ.get('FEEDBACK_FORM_DB_USER')
 DB_PASSWORD = os.environ.get('FEEDBACK_FORM_DB_PASSWORD')
 
-NO_OF_TEAMS = 3
+print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
+      DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
+
+NO_OF_TEAMS = 44
 
 
 conn = psycopg2.connect(
     host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME,
-    sslmode='require')
+    sslmode='prefer')
 
 
 cursor = conn.cursor()
@@ -49,6 +52,7 @@ cursor.execute('''
         field2_rating SMALLINT,
         field3_rating SMALLINT,
         field4_rating SMALLINT,
+        field5_rating SMALLINT,
         average_rating REAL,
         feedback VARCHAR(255),
         FOREIGN KEY (reviewer_id) REFERENCES reviewer(reviewer_id),
@@ -98,16 +102,19 @@ def submit():
             f'team_id{team_id}_field3_rating', 1))
         field4_rating = int(form_data.get(
             f'team_id{team_id}_field4_rating', 1))
+        field5_rating = int(form_data.get(
+            f'team_id{team_id}_field5_rating', 1))
+
         feedback = form_data.get(f'team_id{ team_id }_feedback')
 
         # cursor.execute('''''')
 
         feedbacks.append((reviewer_id, team_id, field1_rating, field2_rating, field3_rating,
-                         field4_rating, field1_rating, field2_rating, field3_rating, field4_rating, feedback))
+                         field4_rating, field5_rating, field1_rating, field2_rating, field3_rating, field4_rating, field5_rating, feedback))
 
     cursor.executemany('''INSERT INTO feedbacks 
-                       (reviewer_id, team_id, field1_rating, field2_rating, field3_rating, field4_rating, average_rating, feedback)
-                        VALUES (%s, %s, %s, %s, %s, %s, (SELECT AVG(s) FROM UNNEST(ARRAY[%s, %s, %s, %s]) s), %s)''',
+                       (reviewer_id, team_id, field1_rating, field2_rating, field3_rating, field4_rating, field5_rating, average_rating, feedback)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, (SELECT AVG(s) FROM UNNEST(ARRAY[%s, %s, %s, %s, %s]) s), %s)''',
                        feedbacks)
     conn.commit()
     cursor.close()
@@ -149,7 +156,7 @@ def dashboard():
     total_feedbacks = total_feedbacks[0] if total_feedbacks is not None else 0
     total_pages = (total_feedbacks // 5) + 1
 
-    # Fetch all feedbacks with reviewer and team details
+    # Fetch 5 feedbacks with reviewer and team details
     cursor.execute('''
         SELECT 
             feedbacks.feedback_id,
@@ -159,6 +166,7 @@ def dashboard():
             feedbacks.field2_rating,
             feedbacks.field3_rating,
             feedbacks.field4_rating,
+            feedbacks.field5_rating,
             feedbacks.average_rating,
             reviewer.review_time,
             feedbacks.feedback
@@ -197,6 +205,11 @@ def dashboard():
         FROM feedbacks
         GROUP BY team_id
         ORDER BY rating DESC)
+        UNION ALL
+        (SELECT 'field5_rating' AS rating_type, team_id, AVG(field5_rating) AS rating
+        FROM feedbacks
+        GROUP BY team_id
+        ORDER BY rating DESC);
     ''')
     best_teams = cursor.fetchall()
 
