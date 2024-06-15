@@ -6,7 +6,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 load_dotenv()
-NO_OF_TEAMS = 45
+NO_OF_TEAMS = 3
 
 ADMIN_USERNAME = os.environ.get('FEEDBACK_FORM_ADMIN_USERNAME')
 ADMIN_PASSWORD = os.environ.get('FEEDBACK_FORM_ADMIN_PASSWORD')
@@ -104,7 +104,7 @@ def submit():
         field5_rating = int(form_data.get(
             f'team_id{team_id}_field5_rating', 1))
 
-        feedback = form_data.get(f'team_id{ team_id }_feedback')
+        feedback = form_data.get(f'team_id{team_id}_feedback')
 
         # cursor.execute('''''')
 
