@@ -16,9 +16,6 @@ DB_NAME = os.environ.get('FEEDBACK_FORM_DB_NAME')
 DB_USER = os.environ.get('FEEDBACK_FORM_DB_USER')
 DB_PASSWORD = os.environ.get('FEEDBACK_FORM_DB_PASSWORD')
 
-# print(ADMIN_USERNAME, ADMIN_PASSWORD, SECRET_KEY,
-#       DB_HOST, DB_NAME, DB_USER, DB_PASSWORD)
-
 
 conn = psycopg2.connect(
     host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME,
