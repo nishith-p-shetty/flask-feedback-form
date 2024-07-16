@@ -41,14 +41,15 @@
                 <tr>
                     <th>Reviewer Name</th>
                     <th>Team Number</th>
-                    <th>Creativity</th>
-                    <th>Explanation</th>
-                    <th>Scalability</th>
+                    <th>Uniqueness</th>
+                    <th>Implementation</th>
                     <th>Presentation</th>
+                    <th>Teamwork</th>
+                    <th>Documentation</th>
                     <th>Average Rating</th>
                     <th>Review Time</th>
                     <th>Feedback</th>
-                    <th>Delete</th>
+                    <!-- <th>Delete</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -63,57 +64,22 @@
                     <td>{{ row[7] }}</td>
                     <td>{{ row[8] }}</td>
                     <td>{{ row[9] }}</td>
-                    <td>
+                    <td>{{ row[10] }}</td>
+                    <!-- <td>
                         <a
                             href="{{ url_for('delete_feedback', feedback_id=row[0]) }}">
                             <i class="fa fa-trash"
                                 style="color: lightcoral;"></i>
                         </a>
-                    </td>
+                    </td> -->
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
             <nav aria-label="Page navigation example">
-                <ul class="pagination desktop-pagination">
-                    <div class="d-flex justify-content-center">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                {% if page != 1 %}
-                                <li class="page-item">
-                                    <a class="page-link"
-                                        href="{{ url_for('dashboard', page=page-1, search=search) }}"
-                                        aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                {% endif %}
-                                {% for page_num in range(1, total_pages+1) %}
-                                {% if page_num != page %}
-                                <li class="page-item"><a class="page-link"
-                                        href="{{ url_for('dashboard', page=page_num, search=search) }}">{{
-                                        page_num }}</a></li>
-                                {% else %}
-                                <li class="page-item active"><span
-                                        class="page-link">{{ page_num
-                                        }}</span></li>
-                                {% endif %}
-                                {% endfor %}
-                                {% if page != total_pages %}
-                                <li class="page-item">
-                                    <a class="page-link"
-                                        href="{{ url_for('dashboard', page=page+1, search=search) }}"
-                                        aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                                {% endif %}
-                            </ul>
-                        </nav>
-                    </div>
-                </ul>
-                <div class="mobile-pagination form">
+
+                <div class="form">
                     <form action="/dashboard" method="GET">
                         <div>
                             <label style="font-size: large;"
@@ -137,10 +103,11 @@
             <thead>
                 <tr>
                     <th>Average of all</th>
-                    <th>Creativity</th>
-                    <th>Explanation</th>
-                    <th>Scalability</th>
+                    <th>Uniqueness</th>
+                    <th>Implementation</th>
                     <th>Presentation</th>
+                    <th>Teamwork</th>
+                    <th>Documentation</th>
                 </tr>
             </thead>
             <tbody>
@@ -156,6 +123,8 @@
                         best_teams[i+no_of_teams*3][2] }})</td>
                     <td>Team {{ best_teams[i+no_of_teams*4][1] }} ({{
                         best_teams[i+no_of_teams*4][2] }})</td>
+                    <td>Team {{ best_teams[i+no_of_teams*5][1] }} ({{
+                        best_teams[i+no_of_teams*5][2] }})</td>
                 </tr>
                 {% endfor %}
             </tbody>

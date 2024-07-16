@@ -227,6 +227,10 @@ input {
   gap: 10px;
 }
 
+.column_title {
+  font-size: 30px; /* Adjust as needed */
+}
+
 /* Responsive styles */
 @media screen and (max-width: 600px) {
   .table {
@@ -298,4 +302,8 @@ input {
   .df {
     flex-direction: column;
   }
+
+  
+
+
 }

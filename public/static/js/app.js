@@ -13,3 +13,16 @@ $(document).ready(function () {
     });
   });
 });
+
+$(document).ready(function () {
+  $('input').keydown(function (event) {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      var nextInput = $('input').eq($('input').index(this) + 1);
+      if (nextInput.length) {
+        nextInput.focus();
+      }
+      return false;
+    }
+  });
+});
