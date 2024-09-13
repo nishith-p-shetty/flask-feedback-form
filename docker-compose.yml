@@ -1,0 +1,28 @@
+services:
+    db:
+        image: postgres:latest
+        container_name: feedback_form_db
+        environment:
+            POSTGRES_USER: ${FEEDBACK_FORM_DB_USER}
+            POSTGRES_PASSWORD: ${FEEDBACK_FORM_DB_PASSWORD}
+            POSTGRES_DB: ${FEEDBACK_FORM_DB_NAME}
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+    web:
+        build: .
+        container_name: feedback_form_web
+        command: python app.py
+        volumes:
+            - .:/app
+        ports:
+            - "3000:3000"
+        depends_on:
+            - db
+        env_file:
+            - .env
+
+volumes:
+    postgres_data:

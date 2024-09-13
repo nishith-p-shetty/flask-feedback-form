@@ -8,7 +8,11 @@
         <link rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+        <link rel="stylesheet"
             href="{{ url_for('static', filename='css/styles.css')}}">
+        <link rel="icon" type="image/png" sizes="30x30"
+            href="{{ url_for('static', filename='images/star.png')}}">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Facebook Meta Tags -->
@@ -34,6 +38,10 @@
             content="https://flaskfeedbackform.bhuvansa.com/static/images/OG.png">
     </head>
     <body>
+        <a href="/" class="dashboard-button" style><i
+                class="bi bi-house-door-fill"></i></a>
+        <a href="https://github.com/bhuvansa/flask-feedback-form"
+            class="github-link"> </a>
         <div class="form">
             <h1>Dashboard</h1>
         </div>
@@ -151,7 +159,9 @@
                 {% endfor %}
             </tbody>
         </table>
-
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"></script>
         <script
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     </body>

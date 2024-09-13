@@ -1,309 +1,307 @@
 @import url(https://fonts.googleapis.com/css?family=Dancing+Script:400,700);
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #c8e7d8;
-  text-align: center;
-  font-family: monospace;
-  background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    background-color: #c8e7d8;
+    text-align: center;
+    font-family: monospace;
+    background-attachment: fixed;
 }
 
-h1,h2 {
-  margin: 0;
-  /* margin-bottom: .1rem; */
-  padding: 0;
-  font-family: "Dancing Script";
-  font-size: 3rem;
+h1,
+h2 {
+    margin: 0;
+    /* margin-bottom: .1rem; */
+    padding: 0;
+    font-family: "Dancing Script";
+    font-size: 3rem;
 }
 h2 {
-  margin-top: .5rem;
-  font-family: inherit;
-  font-size: 2.5rem;
+    margin-top: 0.5rem;
+    font-family: inherit;
+    font-size: 2.5rem;
 }
 
 small {
-  display: block;
-  padding: 1rem 0;
-  /* transition: opacity 0.33s; */
+    display: block;
+    padding: 1rem 0;
+    /* transition: opacity 0.33s; */
 }
 
 .form {
-  display: inline-block;
-  margin: 0 auto;
-  margin-bottom: 5px;
-  width: 500px;
-  background-color: white;
-  border-radius: 20px;
-  text-align: center;
-  /* align: center; */
+    display: inline-block;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    width: 500px;
+    background-color: white;
+    border-radius: 20px;
+    text-align: center;
+    /* align: center; */
 }
 label {
-  display: inline-block;
-  width: 70%;
+    display: inline-block;
+    width: 70%;
 }
 
 input {
-  line-height: 1.5rem;
-  border: 0;
-  outline: none;
-  font-family: "Helvetica";
-  /* -webkit-appearance: none; */
-  /* -moz-appearance: none; */
-  /* appearance: none; */
-  background-color: transparent;
-  font-size: 2rem;
-  text-align: center;
+    line-height: 1.5rem;
+    border: 0;
+    outline: none;
+    font-family: "Helvetica";
+    /* -webkit-appearance: none; */
+    /* -moz-appearance: none; */
+    /* appearance: none; */
+    background-color: transparent;
+    font-size: 2rem;
+    text-align: center;
 }
 .ntext {
-  line-height: 1rem;
-  font-size: 1rem;
-  width: 100%;
-  height: 3rem;
-  
+    line-height: 1rem;
+    font-size: 1rem;
+    width: 100%;
+    height: 3rem;
 }
 
 .slider {
-	-webkit-appearance: none;
-  appearance: none;
-	width: 80%;
-	height: 0.5rem;
-	border-radius: 15px;
-  margin-top: 5px;
-	background: #c0d0c0;
-	outline: none;
-	opacity: 0.7;
-	-webkit-transition: 0.2s;
-	transition: opacity 0.2s;
-  
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80%;
+    height: 0.5rem;
+    border-radius: 15px;
+    margin-top: 5px;
+    background: #c0d0c0;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
 }
 
 .slider::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	appearance: none;
-	width: 30px;
-	height: 30px;
-	border: 0;
-	background: url("../images/star.png");
-	cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: url("../images/star.png");
+    cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-	width: 30px;
-	height: 30px;
-	border: 0;
-	background: url("../images/star.png");
-	cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: url("../images/star.png");
+    cursor: pointer;
 }
 
 #starno {
     color: black;
     text-align: center;
-    font-size:large;
+    font-size: large;
 }
 
 .submitdiv {
-  margin: 3%;
+    margin: 3%;
 }
 
 #sendFeedbackbtn {
-  color: grey;
-  background-color: white;
-  border: none;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  font-size: xx-large;
-  padding: 1%;
+    color: grey;
+    background-color: white;
+    border: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    font-size: xx-large;
+    padding: 1%;
 }
 
 #sendFeedbackbtn:hover {
-  background-color: #c0d0c0;
-  box-shadow: 20px 20px 40px rgba(92, 227, 34, 0.1);
-  transition: background-color 0.5s, border 0.5s;
-  border: solid black 1px;
+    background-color: #c0d0c0;
+    box-shadow: 20px 20px 40px rgba(92, 227, 34, 0.1);
+    transition: background-color 0.5s, border 0.5s;
+    border: solid black 1px;
 }
 
 .dashboard-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 1rem;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 20px;
-  font-size: 1rem;
-  text-decoration: none;
-  color: black;
-  transition: background-color 0.33s, box-shadow 0.33s;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.33s, box-shadow 0.33s;
 }
 
 .dashboard-button:hover {
-  background: #c0d0c0;
-  box-shadow: 20px 20px 40px #c0d0c0;
-  transition: background 0.5s, box-shadow 0.5s;
-  border: solid black 1px;
+    background: #c0d0c0;
+    box-shadow: 20px 20px 40px #c0d0c0;
+    transition: background 0.5s, box-shadow 0.5s;
+    border: solid black 1px;
 }
 
 .github-link {
-  position: absolute;
-  top: 0;
-  left: 0; /* Changed from right to left */
-  margin: 1rem;
-  padding: 1.5rem;
-  background-color: white;
-  background-image: url('https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png'); /* Add your GitHub logo URL here */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  border-radius: 20px;
-  font-size: 1rem;
-  text-decoration: none;
-  color: black;
-  transition: background-color 0.33s, box-shadow 0.33s;
+    position: absolute;
+    top: 0;
+    left: 0; /* Changed from right to left */
+    margin: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    background-image: url("https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"); /* Add your GitHub logo URL here */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-radius: 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.33s, box-shadow 0.33s;
 }
 
 .github-link:hover {
-  background-color: #c0d0c0; /* Changed from background to background-color */
-  box-shadow: 20px 20px 40px #c0d0c0;
-  transition: background-color 0.5s, box-shadow 0.5s; /* Changed from background to background-color */
-  border: solid black 1px;
+    background-color: #c0d0c0; /* Changed from background to background-color */
+    box-shadow: 20px 20px 40px #c0d0c0;
+    transition: background-color 0.5s, box-shadow 0.5s; /* Changed from background to background-color */
+    border: solid black 1px;
 }
 
 .form {
-  display: inline-block;
-  margin: 30px auto;
-  padding: 10px;
-  width: 90%;
-  background-color: white;
-  border-radius: 20px;
-  /* color: green; */
+    display: inline-block;
+    margin: 30px auto;
+    padding: 10px;
+    width: 90%;
+    background-color: white;
+    border-radius: 20px;
+    /* color: green; */
 }
 
 .user_page {
-  width: 550px;
-
+    width: 550px;
 }
 .table {
-  width: 90%;
-  margin : auto;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+    width: 90%;
+    margin: auto;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
-.table th, .table td {
-  padding: 1rem;
-  border: 1px solid #ddd;
-  text-align: left;
-  text-align: center;
+.table th,
+.table td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    text-align: left;
+    text-align: center;
 }
 
 .table th {
-  background-color: #eaeaea;
-  color: black;
+    background-color: #eaeaea;
+    color: black;
 }
 
 .table tr {
-  border-radius: 20px;
-  background-color: #f5f5f5;
+    border-radius: 20px;
+    background-color: #f5f5f5;
 }
 
 .table tbody tr:hover {
-  background-color: #eaeaea;
+    background-color: #eaeaea;
 }
 
 .desktop-pagination {
-  display: block;
+    display: block;
 }
 
 .mobile-pagination {
-  display: none;
+    display: none;
 }
 .df {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.column_title {
-  font-size: 30px; /* Adjust as needed */
-}
-
-/* Responsive styles */
-@media screen and (max-width: 600px) {
-  .table {
-    display: inline-block;
-    margin: 20px auto;
-    overflow-x: auto;
-    width: 90%;
-    white-space: nowrap;
-  }
-
-  .form {
-    width: 90%; /* Adjust width to fit smaller screens */
-    margin: 20px auto; /* Adjust margin */
-  }
-
-  .dashboard-button, .github-link {
-    margin: 0.5rem; /* Adjust margin */
-    padding: 0.5rem; /* Adjust padding */
-  }
-  .github-link {
-    padding: 1rem; /* Adjust padding */
-  }
-
-  h1, h2 {
-    font-size: 2rem; /* Adjust font size */
-  }
-
-  input, .ntext {
-    font-size: 1.5rem; /* Adjust font size */
-  }
-
-  .slider {
-    width: 90%; /* Adjust width */
-  }
-
-  .rate_team {
-    margin-top : 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .pagination {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .pagination .page-item {
-    margin: 0.5rem 0;
-  }
-
-  .desktop-pagination {
-    display: none;
-  }
-  .mobile-pagination {
-    display: block;
-  }
-  .mobile-pagination form {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-  }
-  .mobile-pagination input[type="number"] {
-    width: 50px; /* Adjust as needed */
-  }
+}
 
-  .mobile-pagination input[type="submit"] {
-    padding: 5px 10px;
-    border-color: #c0d0c0;
-  }
-  .df {
-    flex-direction: column;
-  }
+.column_title {
+    font-size: 30px; /* Adjust as needed */
+}
 
-  
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+    .table {
+        display: inline-block;
+        margin: 20px auto;
+        overflow-x: auto;
+        width: 90%;
+        white-space: nowrap;
+    }
 
+    .form {
+        width: 90%; /* Adjust width to fit smaller screens */
+        margin: 20px auto; /* Adjust margin */
+    }
 
+    .dashboard-button,
+    .github-link {
+        margin: 0.5rem; /* Adjust margin */
+        padding: 0.5rem; /* Adjust padding */
+    }
+    .github-link {
+        padding: 1rem; /* Adjust padding */
+    }
+
+    h1,
+    h2 {
+        font-size: 2rem; /* Adjust font size */
+    }
+
+    input,
+    .ntext {
+        font-size: 1.5rem; /* Adjust font size */
+    }
+
+    .slider {
+        width: 90%; /* Adjust width */
+    }
+
+    .rate_team {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .pagination {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .pagination .page-item {
+        margin: 0.5rem 0;
+    }
+
+    .desktop-pagination {
+        display: none;
+    }
+    .mobile-pagination {
+        display: block;
+    }
+    .mobile-pagination form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .mobile-pagination input[type="number"] {
+        width: 50px; /* Adjust as needed */
+    }
+
+    .mobile-pagination input[type="submit"] {
+        padding: 5px 10px;
+        border-color: #c0d0c0;
+    }
+    .df {
+        flex-direction: column;
+    }
 }

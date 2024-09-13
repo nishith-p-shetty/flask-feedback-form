@@ -276,4 +276,6 @@ def delete_feedback(feedback_id):
 
 
 if __name__ == "__main__":
-    app.run()
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", 3000))
+    app.run(host=host, port=port)
