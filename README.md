@@ -4,51 +4,54 @@
 ![Flask](https://img.shields.io/badge/-Flask-333333?style=flat&logo=flask)
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-333333?style=flat&logo=postgresql)
 
-Flask Feedback Form is a web application designed to collect and analyze feedback and ratings for multiple teams. 
+Flask Feedback Form is a web application designed to collect and analyze feedback and ratings for multiple teams.
 
 Check out the live website [here](https://flaskfeedbackform.bhuvansa.com).
 
 ## Table of Contents
 
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [System Architecture](#system-architecture)
-- [DBML Diagram](#dbml-diagram)
-- [Credits](#credits)
-- [License](#license)
+-   [Features](#features)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [System Architecture](#system-architecture)
+-   [DBML Diagram](#dbml-diagram)
+-   [Credits](#credits)
+-   [License](#license)
 
 ## Features
 
-- Users can submit feedback for multiple teams by filling out a form with their name, rating, and feedback message.
-- Interactive dashboard displaying insights into ratings and feedback that have been submitted.
-- Authentication functionality to prevent unauthorized access to the dashboard.
+-   Users can submit feedback for multiple teams by filling out a form with their name, rating, and feedback message.
+-   Interactive dashboard displaying insights into ratings and feedback that have been submitted.
+-   Authentication functionality to prevent unauthorized access to the dashboard.
 
 ## Installation
 
 1. Clone the repository to your local machine.
-2. Install the required dependencies using pip:
-    ``` pip install -r requirements.txt ```
-3. Create a `.env` file in the root directory with the following data: 
-    ``` 
-    Application Details
-    FEEDBACK_FORM_ADMIN_USERNAME='YOUR_ADMIN_USERNAME'
-    FEEDBACK_FORM_ADMIN_PASSWORD='YOUR_ADMIN_PASSWORD'
-    FEEDBACK_FORM_SECRET_KEY='YOUR_SECRET_KEY'
+2. Create a `.env` file in the root directory with the following data:
 
-    PostgreSQL database details
-    FEEDBACK_FORM_DB_HOST="YOUR_DATABASE_HOST"
-    FEEDBACK_FORM_DB_NAME="YOUR_DATABASE_NAME"
-    FEEDBACK_FORM_DB_USER="YOUR_DATABASE_USERNAME"
-    FEEDBACK_FORM_DB_PASSWORD="YOUR_DATABASE_PASSWORD" 
     ```
-4. Run the application: ``` python app.py ```
+    # Application Details
+    FEEDBACK_FORM_ADMIN_USERNAME=YOUR_ADMIN_USERNAME
+    FEEDBACK_FORM_ADMIN_PASSWORD=YOUR_ADMIN_PASSWORD
+    FEEDBACK_FORM_SECRET_KEY=YOUR_SECRET_KEY
 
+    # PostgreSQL database details
+    FEEDBACK_FORM_DB_HOST=db
+    FEEDBACK_FORM_DB_NAME=YOUR_DATABASE_NAME
+    FEEDBACK_FORM_DB_USER=YOUR_DATABASE_USERNAME
+    FEEDBACK_FORM_DB_PASSWORD=YOUR_DATABASE_PASSWORD
+    ```
+
+3. Build and start the application using Docker Compose:
+
+    ```sh
+    docker-compose up --build
+    ```
 
 ## Usage
 
-- Visit `http://127.0.0.1:5000/` to submit feedback.
-- Visit `http://127.0.0.1:5000/dashboard` to view data.
+-   Visit `http://localhost:3000/` to submit feedback.
+-   Visit `http://localhost:3000/dashboard` to view data.
 
 ## System Architecture
 
